@@ -20,7 +20,7 @@ export const fetchSearchData = (dispatch, phrase) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.SPOTIFY_OAUTH_TOKEN}`
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`
     }
   })
     .then((response) => response.data)
