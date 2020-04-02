@@ -19,11 +19,12 @@ const ItemImage = styled.img`
 `
 
 const ItemsList = styled.ul`
+  padding: 0;
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
-  justify-content: left;
-  align-items: left;
+  justify-content: center;
+  align-items: center;
 `
 
 const Item = styled.li`
