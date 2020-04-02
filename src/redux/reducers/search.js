@@ -1,9 +1,12 @@
-import { SET_SEARCH_PHRASE, FETCH_SEARCH_DATA } from '../actionTypes'
-import axios from 'axios'
+import {
+  SET_SEARCH_PHRASE,
+  FETCH_SEARCH_DATA_SUCCESS,
+  FETCH_SEARCH_DATA_FAIL
+} from '../actionTypes'
 
 const initialState = {
   searchPhrase: 'start',
-  responseData: []
+  searchResponseData: null
 }
 
 export default function searchPhraseResult(state = initialState, action) {
@@ -14,27 +17,18 @@ export default function searchPhraseResult(state = initialState, action) {
         searchPhrase: action.payload.phrase
       }
     }
-    case FETCH_SEARCH_DATA: {
-      let response
 
-      async function fetchData() {
-        response = await axios({
-          method: 'get',
-          url: `https://api.spotify.com/v1/search?q=${state.searchPhrase}&type=artist&market=US&limit=10`,
-          responseType: 'json',
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            Authorization: `Bearer ${process.env.SPOTIFY_TOKEN}`
-          }
-        })
-      }
-
-      fetchData()
-
+    case FETCH_SEARCH_DATA_SUCCESS: {
       return {
         ...state,
-        responseData: response
+        searchResponseData: action.payload.data
+      }
+    }
+
+    case FETCH_SEARCH_DATA_FAIL: {
+      return {
+        ...state,
+        searchResponseData: action.payload.err
       }
     }
 

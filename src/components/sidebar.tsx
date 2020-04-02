@@ -15,7 +15,7 @@ const Container = styled.section`
 
 const List = styled.ul`
   width: 100%;
-  margin-top: 40%;
+  margin-top: 100px;
 `
 
 const ListItem = styled.li`

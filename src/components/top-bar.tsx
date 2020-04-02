@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 
 import { connect } from 'react-redux'
-import { setSearchPhrase } from '../redux/actions'
+import { setSearchPhrase, fetchSearchData } from '../redux/actions'
 
 const Header = styled.header`
   width: 100%;
@@ -51,6 +51,7 @@ export const TopBar: React.FC<{}> = () => {
       <Button
         onClick={() => {
           dispatch(setSearchPhrase(inputPhrase))
+          fetchSearchData(dispatch, inputPhrase)
         }}
       >
         Search
