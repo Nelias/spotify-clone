@@ -3,7 +3,7 @@ import styled from 'styled-components'
 
 const Container = styled.section`
   width: 10%;
-  height: 100vh;
+  height: inherit;
   display: flex;
   flex-direction: column;
   justify-content: left;

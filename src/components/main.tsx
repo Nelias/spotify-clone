@@ -26,23 +26,20 @@ export const Main: React.FC<{
   searchPhrase: string
   searchResponseData: any
 }> = ({ searchPhrase, searchResponseData }) => {
-  console.log(searchResponseData)
   return (
-    <>
-      <Content>
-        {searchPhrase}
-        <ItemsList>
-          {searchResponseData
-            ? searchResponseData.artists.items.map((elem: any) => (
-                <li key={elem.name}>
-                  <ArtistImage src={elem.images[0].url} alt="" />
-                  {elem.name}
-                </li>
-              ))
-            : null}
-        </ItemsList>
-      </Content>
-    </>
+    <Content>
+      {searchPhrase}
+      <ItemsList>
+        {searchResponseData
+          ? searchResponseData.artists.items.map((elem: any) => (
+              <li key={elem.name}>
+                <ArtistImage src={elem.images[0].url} alt="" />
+                {elem.name}
+              </li>
+            ))
+          : null}
+      </ItemsList>
+    </Content>
   )
 }
 

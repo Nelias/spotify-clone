@@ -10,6 +10,7 @@ import styled from 'styled-components'
 
 const MainWrapper = styled.div`
   display: flex;
+  min-height: 100vh;
 `
 
 function App() {
