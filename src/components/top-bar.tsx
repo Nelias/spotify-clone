@@ -20,6 +20,10 @@ const Search = styled.input`
   padding: 10px;
   border-radius: 40px;
   border: none;
+
+  &:focus {
+    outline: none;
+  }
 `
 
 const Button = styled.button`
@@ -40,11 +44,19 @@ export const TopBar: React.FC<{}> = () => {
     setInputPhrase(phrase)
   }
 
+  const handleKeyPress = (key: string) => {
+    if (key === 'Enter') {
+      dispatch(setSearchPhrase(inputPhrase))
+      fetchSearchData(dispatch, inputPhrase)
+    }
+  }
+
   return (
     <Header>
       <Search
         placeholder="Search artists, albums or tracks"
         onChange={(e) => handleSearchInput(e.target.value)}
+        onKeyDown={(e) => handleKeyPress(e.key)}
         type="search"
         aria-label="Search through site content"
       />
