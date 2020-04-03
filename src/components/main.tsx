@@ -60,7 +60,13 @@ export const Main: React.FC<{
 }> = ({ searchResponseData }) => {
   const dispatch = useDispatch()
 
-  const shortenName = (name: string) => name
+  const shortenName = (name: string) => {
+    const textLength: number = 13
+
+    return name.length > textLength
+      ? name.slice(0, textLength).concat('...')
+      : name
+  }
 
   return (
     <>
