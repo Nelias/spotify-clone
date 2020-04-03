@@ -14,15 +14,6 @@ const Content = styled.main`
   padding-bottom: 100px;
 `
 
-const ItemImage = styled.img`
-  width: 50px;
-  height: 50px;
-`
-
-const ArtistImage = styled(ItemImage)`
-  border-radius: 100%;
-`
-
 const ItemsList = styled.ul`
   padding: 0;
   display: flex;
@@ -35,13 +26,27 @@ const ItemsList = styled.ul`
 const Item = styled.li`
   background: #333;
   width: 150px;
-  height: 180px;
+  height: 240px;
   margin: 10px;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
   align-items: center;
   border-radius: 10px;
+`
+
+const ItemImage = styled.img`
+  width: 120px;
+  height: 120px;
+`
+
+const ArtistImage = styled(ItemImage)`
+  border-radius: 100%;
+`
+
+const TrackImage = styled.img`
+  width: 50px;
+  height: 50px;
 `
 
 const Track = styled(Item)`
@@ -78,7 +83,14 @@ export const Main: React.FC<{
               {searchResponseData.artists
                 ? searchResponseData.artists.items.map((artist: any) => (
                     <Item key={artist.id}>
-                      <ArtistImage src="https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1" />
+                      <ArtistImage
+                        src={
+                          artist.images.length > 0
+                            ? artist.images[0].url
+                            : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
+                        }
+                      />
+
                       {shortenName(artist.name)}
                     </Item>
                   ))
@@ -94,6 +106,7 @@ export const Main: React.FC<{
                         src={elem.images ? elem.images[1].url : ''}
                         alt=""
                       />
+
                       {shortenName(elem.name)}
                       <br />
                       <br />
@@ -112,7 +125,7 @@ export const Main: React.FC<{
                         dispatch(setCurrentTrackURL(elem.preview_url))
                       }
                     >
-                      <ItemImage
+                      <TrackImage
                         src={
                           elem.images
                             ? elem.album.images[1].url
