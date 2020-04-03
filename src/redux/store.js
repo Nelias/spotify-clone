@@ -1,4 +1,4 @@
 import { createStore } from 'redux'
-import searchPhraseResult from './reducers/search'
+import rootReducer from './reducers/index'
 
-export default createStore(searchPhraseResult)
+export default createStore(rootReducer)

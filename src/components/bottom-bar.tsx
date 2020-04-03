@@ -1,5 +1,6 @@
 import React from 'react'
 import styled from 'styled-components'
+import { connect } from 'react-redux'
 
 const Player = styled.audio`
   width: 100%;
@@ -9,13 +10,27 @@ const Player = styled.audio`
   background-color: #111;
 `
 
-export const BottomBar: React.FC<{}> = () => {
+const BottomBar: React.FC<{ currentTrack: any }> = (currentTrack) => {
   return (
-    <Player controls>
-      <source
-        src="https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3"
-        type="audio/mp3"
+    <div>
+      <Player
+        src={`${currentTrack.currentTrack}`}
+        controls
+        autoPlay={
+          !(
+            currentTrack.currentTrack ===
+            'https://www.soundhelix.com/examples/mp3/SoundHelix-Song-6.mp3'
+          )
+        }
       />
-    </Player>
+    </div>
   )
 }
+
+const mapStateToProps = (state: any) => {
+  const { currentTrack } = state.player
+  console.log(currentTrack)
+  return { currentTrack }
+}
+
+export default connect(mapStateToProps)(BottomBar)

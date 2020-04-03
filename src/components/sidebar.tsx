@@ -10,7 +10,7 @@ const Container = styled.section`
   align-items: flex-end;
   position: relative;
   left: 0;
-  background-color: #111;
+  background-color: #000;
 `
 
 const List = styled.ul`

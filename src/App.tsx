@@ -1,7 +1,8 @@
 import React from 'react'
-import { Sidebar, BottomBar } from './components/index'
+import { Sidebar } from './components/index'
 import TopBar from './components/top-bar'
 import Main from './components/main'
+import BottomBar from './components/bottom-bar'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'
@@ -22,7 +23,6 @@ function App() {
           <Sidebar />
           <Main />
         </MainWrapper>
-
         <BottomBar />
       </div>
     </Provider>

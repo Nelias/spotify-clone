@@ -8,7 +8,8 @@ import {
   FETCH_CATEGORIES_FAIL,
   FETCH_NEW_RELEASES,
   FETCH_NEW_RELEASES_SUCCESS,
-  FETCH_NEW_RELEASES_FAIL
+  FETCH_NEW_RELEASES_FAIL,
+  SET_CURRENT_TRACK
 } from './actionTypes'
 import axios from 'axios'
 
@@ -85,3 +86,8 @@ export const fetchNewReleases = (dispatch) => {
       dispatch({ type: FETCH_NEW_RELEASES_FAIL, payload: err, error: true })
     })
 }
+
+export const setCurrentTrackURL = (trackURL) => ({
+  type: SET_CURRENT_TRACK,
+  payload: { trackURL }
+})

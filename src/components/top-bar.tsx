@@ -10,7 +10,7 @@ const Header = styled.header`
   display: block;
   position: fixed;
   top: 0;
-  background-color: #222;
+  background-color: #111;
   z-index: 2;
   padding: 10px 0;
 `
