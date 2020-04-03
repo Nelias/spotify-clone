@@ -34,7 +34,6 @@ const ItemsList = styled.ul`
 
 const Item = styled.li`
   background: #333;
-  min-width: 0;
   width: 150px;
   height: 180px;
   margin: 10px;
@@ -43,10 +42,6 @@ const Item = styled.li`
   justify-content: space-evenly;
   align-items: center;
   border-radius: 10px;
-
-  white-space: nowrap;
-  overflow: hidden;
-  text-overflow: ellipsis;
 `
 
 const Track = styled(Item)`
@@ -65,8 +60,7 @@ export const Main: React.FC<{
 }> = ({ searchResponseData }) => {
   const dispatch = useDispatch()
 
-  const shortenName = (name: string) =>
-    name.length > 13 ? name.slice(0, 13).concat('...') : name
+  const shortenName = (name: string) => name
 
   return (
     <>
