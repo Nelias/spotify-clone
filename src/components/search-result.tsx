@@ -5,18 +5,7 @@ import { connect } from 'react-redux'
 
 import { Albums } from './albums'
 import styled from 'styled-components'
-import { Title, ItemsList, Item, ArtistImage, shortenName } from './main'
-
-type TrackProps = {
-  isPlayable: boolean
-}
-
-const Track = styled(Item)<TrackProps>`
-  &:hover {
-    ${(props) =>
-      props.isPlayable ? 'cursor: not-allowed;' : 'cursor: pointer;'}
-  }
-`
+import { Title, ItemsList, Item, Track, ArtistImage, shortenName } from './main'
 
 export const TrackImage = styled.img`
   width: 50px;

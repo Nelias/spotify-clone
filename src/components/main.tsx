@@ -15,6 +15,10 @@ type TError = {
   message: string
 }
 
+type TrackProps = {
+  isPlayable: boolean
+}
+
 interface MainProps {
   searchResponseData: TError | any
   isSearchLoading: boolean
@@ -84,6 +88,13 @@ export const Spinner = styled.img`
   height: 82vh;
 
   width: 130px;
+`
+
+export const Track = styled(Item)<TrackProps>`
+  &:hover {
+    ${(props) =>
+      props.isPlayable ? 'cursor: not-allowed;' : 'cursor: pointer;'}
+  }
 `
 
 export const shortenName = (name: string) => {
