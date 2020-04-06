@@ -33,6 +33,8 @@ interface MainProps {
   isUserProfileLoading: boolean
 }
 
+const itemContentWidth = '140px'
+
 const Content = styled.main`
   background: #111;
   color: white;
@@ -55,13 +57,16 @@ export const ItemsList = styled.ul`
   flex-wrap: wrap;
   justify-content: center;
   align-items: center;
+
+  margin-bottom: 100px;
 `
 
 export const Item = styled.li`
-  background: #333;
-  width: 150px;
-  height: 240px;
+  background: #282828;
+  width: 180px;
+  height: 235px;
   margin: 10px;
+  padding: 3px 0 15px 0;
   display: flex;
   flex-direction: column;
   justify-content: space-evenly;
@@ -69,9 +74,42 @@ export const Item = styled.li`
   border-radius: 10px;
 `
 
+export const ItemTextWrapper = styled.div`
+  display: block;
+  width: ${itemContentWidth};
+  min-width: 0;
+  padding: 0;
+  text-align: left;
+
+  font-size: 14px;
+  line-height: 20px;
+  font-weight: 700;
+  letter-spacing: 0.24px;
+
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+`
+
+export const ItemSubtitle = styled.span`
+  display: block;
+  width: ${itemContentWidth};
+  padding: 0;
+  margin-top: 3px;
+
+  font-size: 11px;
+  line-height: 18px;
+  color: #b3b3b3;
+  text-transform: none;
+  font-family: spotify-circular, spotify-circular-cyrillic,
+    spotify-circular-arabic, spotify-circular-hebrew, Helvetica Neue, Helvetica,
+    Arial, Hiragino Kaku Gothic Pro, Meiryo, MS Gothic, sans-serif;
+`
+
 export const ItemImage = styled.img`
-  width: 120px;
-  height: 120px;
+  width: ${itemContentWidth};
+  height: ${itemContentWidth};
 `
 
 export const ArtistImage = styled(ItemImage)`
@@ -81,6 +119,7 @@ export const ArtistImage = styled(ItemImage)`
 export const Title = styled.h2`
   font-size: 1.5rem;
   margin-top: 50px;
+  margin-bottom: 30px;
 `
 
 export const Spinner = styled.img`
@@ -91,19 +130,13 @@ export const Spinner = styled.img`
 `
 
 export const Track = styled(Item)<TrackProps>`
+  height: 200px;
+  padding: 3px 0 0 0;
   &:hover {
     ${(props) =>
       props.isPlayable ? 'cursor: not-allowed;' : 'cursor: pointer;'}
   }
 `
-
-export const shortenName = (name: string) => {
-  const textLength: number = 13
-
-  return name.length > textLength
-    ? name.slice(0, textLength).concat('...')
-    : name
-}
 
 export const Main: React.FC<MainProps> = ({
   searchResponseData,
@@ -152,7 +185,7 @@ export const Main: React.FC<MainProps> = ({
           <Spinner src="/spinner.svg" alt="spinner" />
         )}
 
-        {!areNewReleasesLoading && (
+        {!areNewReleasesLoading && newReleases && (
           <DataError data={newReleases} title="New Releases">
             <Albums data={newReleases} title="New Releases" />
           </DataError>

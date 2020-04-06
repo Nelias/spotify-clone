@@ -5,7 +5,15 @@ import { connect } from 'react-redux'
 
 import { Albums } from './albums'
 import styled from 'styled-components'
-import { Title, ItemsList, Item, Track, ArtistImage, shortenName } from './main'
+import {
+  Title,
+  ItemsList,
+  Item,
+  Track,
+  ArtistImage,
+  ItemSubtitle,
+  ItemTextWrapper,
+} from './main'
 
 export const TrackImage = styled.img`
   width: 50px;
@@ -29,8 +37,10 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
                       : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
                   }
                 />
-
-                {shortenName(artist.name)}
+                <ItemTextWrapper>
+                  {artist.name}
+                  <ItemSubtitle>Artist</ItemSubtitle>
+                </ItemTextWrapper>
               </Item>
             ))
           : null}
@@ -57,10 +67,10 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
                   }
                   alt={`play ${elem.name}`}
                 />
-                {shortenName(elem.name)}
-                <br />
-                <br />
-                {shortenName(elem.artists[0].name)}
+                <ItemTextWrapper>
+                  {elem.name}
+                  <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
+                </ItemTextWrapper>
               </Track>
             ))
           : null}

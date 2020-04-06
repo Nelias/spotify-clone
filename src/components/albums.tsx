@@ -1,4 +1,11 @@
-import { Title, ItemsList, Item, ItemImage, shortenName } from './main'
+import {
+  Title,
+  ItemsList,
+  Item,
+  ItemImage,
+  ItemTextWrapper,
+  ItemSubtitle,
+} from './main'
 import * as React from 'react'
 
 type TImage = {
@@ -34,11 +41,10 @@ export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
           ? data.albums.items.map((elem: TAlbumItem) => (
               <Item key={elem.id}>
                 <ItemImage src={elem.images ? elem.images[1].url : ''} alt="" />
-
-                {shortenName(elem.name)}
-                <br />
-                <br />
-                {shortenName(elem.artists[0].name)}
+                <ItemTextWrapper>
+                  {elem.name}
+                  <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
+                </ItemTextWrapper>
               </Item>
             ))
           : null}

@@ -1,4 +1,11 @@
-import { Title, ItemsList, Item, ItemImage, shortenName } from './main'
+import {
+  Title,
+  ItemsList,
+  Item,
+  ItemImage,
+  ItemTextWrapper,
+  ItemSubtitle,
+} from './main'
 import * as React from 'react'
 import { Link } from 'react-router-dom'
 import { fetchPlaylist } from '../redux/actions'
@@ -58,8 +65,10 @@ export const Playlists: React.FC<{
                     src={elem.images ? elem.images[0].url : ''}
                     alt=""
                   />
-
-                  {shortenName(elem.name)}
+                  <ItemTextWrapper>
+                    {elem.name}
+                    <ItemSubtitle>By Spotify</ItemSubtitle>
+                  </ItemTextWrapper>
                 </Item>
               </Link>
             ))

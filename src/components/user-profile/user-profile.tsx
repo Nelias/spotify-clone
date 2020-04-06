@@ -31,7 +31,10 @@ export const UserWrapper = styled.div`
 const UserInfo = styled.div``
 
 const UserImage = styled.img`
+  width: 15vw;
   margin: 30px auto;
+  border-radius: 100%;
+  border: 5px dotted #555;
 
   @media only screen and (max-width: 600px) {
     width: 50vw;
