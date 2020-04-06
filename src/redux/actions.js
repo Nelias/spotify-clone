@@ -9,13 +9,19 @@ import {
   FETCH_NEW_RELEASES,
   FETCH_NEW_RELEASES_SUCCESS,
   FETCH_NEW_RELEASES_FAIL,
-  SET_CURRENT_TRACK
+  FETCH_CATEGORY_PLAYLISTS,
+  FETCH_CATEGORY_PLAYLISTS_SUCCESS,
+  FETCH_CATEGORY_PLAYLISTS_FAIL,
+  FETCH_PLAYLIST,
+  FETCH_PLAYLIST_SUCCESS,
+  FETCH_PLAYLIST_FAIL,
+  SET_CURRENT_TRACK,
 } from './actionTypes'
 import axios from 'axios'
 
 export const setSearchPhrase = (phrase) => ({
   type: SET_SEARCH_PHRASE,
-  payload: { phrase }
+  payload: { phrase },
 })
 
 export const fetchSearchData = (dispatch, phrase) => {
@@ -28,8 +34,8 @@ export const fetchSearchData = (dispatch, phrase) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`
-    }
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
   })
     .then((response) => response.data)
     .then((data) =>
@@ -41,7 +47,7 @@ export const fetchSearchData = (dispatch, phrase) => {
     })
 }
 
-export const fetchCategories = (dispatch) => {
+export const fetchCategories = (dispatch, categoryName) => {
   dispatch({ type: FETCH_CATEGORIES, payload: null })
 
   axios({
@@ -51,12 +57,15 @@ export const fetchCategories = (dispatch) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`
-    }
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
   })
     .then((response) => response.data)
     .then((data) =>
-      dispatch({ type: FETCH_CATEGORIES_SUCCESS, payload: { data } })
+      dispatch({
+        type: FETCH_CATEGORIES_SUCCESS,
+        payload: { data: data, currentCategoryName: categoryName },
+      })
     )
     .catch((err) => {
       console.error(err)
@@ -74,8 +83,8 @@ export const fetchNewReleases = (dispatch) => {
     headers: {
       Accept: 'application/json',
       'Content-Type': 'application/json',
-      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`
-    }
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
   })
     .then((response) => response.data)
     .then((data) =>
@@ -87,7 +96,64 @@ export const fetchNewReleases = (dispatch) => {
     })
 }
 
+export const fetchCategoryPlaylists = (
+  dispatch,
+  categoryPlaylistsURL,
+  categoryName
+) => {
+  dispatch({ type: FETCH_CATEGORY_PLAYLISTS, payload: null })
+
+  axios({
+    method: 'GET',
+    url: `${categoryPlaylistsURL}/playlists`,
+    responseType: 'json',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
+  })
+    .then((response) => response.data)
+    .then((data) =>
+      dispatch({
+        type: FETCH_CATEGORY_PLAYLISTS_SUCCESS,
+        payload: { data: data, categoryName: categoryName },
+      })
+    )
+    .catch((err) => {
+      console.error(err)
+      dispatch({
+        type: FETCH_CATEGORY_PLAYLISTS_FAIL,
+        payload: err,
+        error: true,
+      })
+    })
+}
+
+export const fetchPlaylist = (dispatch, playlistURL) => {
+  dispatch({ type: FETCH_PLAYLIST, payload: null })
+
+  axios({
+    method: 'GET',
+    url: `${playlistURL}`,
+    responseType: 'json',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
+  })
+    .then((response) => response.data)
+    .then((data) =>
+      dispatch({ type: FETCH_PLAYLIST_SUCCESS, payload: { data } })
+    )
+    .catch((err) => {
+      console.error(err)
+      dispatch({ type: FETCH_PLAYLIST_FAIL, payload: err, error: true })
+    })
+}
+
 export const setCurrentTrackURL = (trackURL) => ({
   type: SET_CURRENT_TRACK,
-  payload: { trackURL }
+  payload: { trackURL },
 })

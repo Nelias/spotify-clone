@@ -1,6 +1,6 @@
 import React from 'react'
-import { Sidebar } from './components/index'
-import TopBar from './components/top-bar'
+import Sidebar from './components/sidebar'
+import TopBar from './components/top-bar/top-bar'
 import Main from './components/main'
 import BottomBar from './components/bottom-bar'
 
