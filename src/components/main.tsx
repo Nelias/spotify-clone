@@ -1,7 +1,7 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { Route } from 'react-router-dom'
+import { Route, Switch } from 'react-router-dom'
 import { Albums } from './albums'
 import Categories from './categories'
 import Playlists from './playlists'
@@ -155,71 +155,81 @@ export const Main: React.FC<MainProps> = ({
 }) => {
   return (
     <Content>
-      <Route exact path="/categories/:id/:playlist">
-        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+      <Switch>
+        <Route exact path="/categories/:id/:playlist">
+          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!isPlaylistLoading && currentPlaylist && (
-          <DataError data={currentPlaylist} title="Playlist">
-            <Playlist data={currentPlaylist} type="playlist" />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/categories/:id">
-        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {!isPlaylistLoading && currentPlaylist && (
+            <DataError data={currentPlaylist} title="Playlist">
+              <Playlist data={currentPlaylist} type="playlist" />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/categories/:id">
+          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!isPlaylistLoading && currentCategoryPlaylists && (
-          <DataError data={currentCategoryPlaylists} title="Playlist">
-            <Playlists data={currentCategoryPlaylists} />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/categories">
-        {areCategoriesLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {!isPlaylistLoading && currentCategoryPlaylists && (
+            <DataError data={currentCategoryPlaylists} title="Playlist">
+              <Playlists data={currentCategoryPlaylists} />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/categories">
+          {areCategoriesLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!areCategoriesLoading && categories && (
-          <DataError data={categories} title="Categories">
-            <Categories data={categories} />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/new-releases">
-        {areNewReleasesLoading && isSearchLoading && (
-          <Spinner src="/spinner.svg" alt="spinner" />
-        )}
+          {!areCategoriesLoading && categories && (
+            <DataError data={categories} title="Categories">
+              <Categories data={categories} />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/new-releases">
+          {areNewReleasesLoading && isSearchLoading && (
+            <Spinner src="/spinner.svg" alt="spinner" />
+          )}
 
-        {!areNewReleasesLoading && newReleases && (
-          <DataError data={newReleases} title="New Releases">
-            <Albums data={newReleases} title="New Releases" />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/user-profile">
-        {isUserProfileLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {!areNewReleasesLoading && newReleases && (
+            <DataError data={newReleases} title="New Releases">
+              <Albums data={newReleases} title="New Releases" />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/user-profile">
+          {isUserProfileLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!isUserProfileLoading && userProfile && (
-          <DataError data={userProfile} title="User Profile">
-            <UserProfile data={userProfile} />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/albums/:id">
-        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {!isUserProfileLoading && userProfile && (
+            <DataError data={userProfile} title="User Profile">
+              <UserProfile data={userProfile} />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/albums/:id">
+          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!isPlaylistLoading && currentPlaylist && (
-          <DataError data={currentPlaylist} title="Playlist">
-            <Playlist data={currentPlaylist} type="album" />
-          </DataError>
-        )}
-      </Route>
-      <Route exact path="/">
-        {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {!isPlaylistLoading && currentPlaylist && (
+            <DataError data={currentPlaylist} title="Playlist">
+              <Playlist data={currentPlaylist} type="album" />
+            </DataError>
+          )}
+        </Route>
+        <Route exact path="/">
+          {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
-        {!isSearchLoading && searchResponseData && (
-          <DataError data={searchResponseData} title="Search">
-            <SearchResult data={searchResponseData} />
+          {!isSearchLoading && searchResponseData && (
+            <DataError data={searchResponseData} title="Search">
+              <SearchResult data={searchResponseData} />
+            </DataError>
+          )}
+        </Route>
+        <Route>
+          <DataError
+            data={{ status: 404, message: 'Content not found!' }}
+            title=""
+          >
+            {null}
           </DataError>
-        )}
-      </Route>
+        </Route>
+      </Switch>
     </Content>
   )
 }

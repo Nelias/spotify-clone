@@ -27,44 +27,48 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
     <>
       <Title>Artists</Title>
       <ItemsList>
-        {data.artists
-          ? data.artists.items.map((artist: any) => (
-              <Item key={artist.id}>
-                <ArtistImage
-                  src={
-                    artist.images.length > 0
-                      ? artist.images[0].url
-                      : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
-                  }
-                />
-                <ItemTextWrapper>
-                  {artist.name}
-                  <ItemSubtitle>Artist</ItemSubtitle>
-                </ItemTextWrapper>
-              </Item>
-            ))
-          : null}
+        {data.artists.length > 1 ? (
+          data.artists.items.map((artist: any) => (
+            <Item key={artist.id}>
+              <ArtistImage
+                src={
+                  artist.images.length > 0
+                    ? artist.images[0].url
+                    : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
+                }
+              />
+              <ItemTextWrapper>
+                {artist.name}
+                <ItemSubtitle>Artist</ItemSubtitle>
+              </ItemTextWrapper>
+            </Item>
+          ))
+        ) : (
+          <p>There are no results for your query!</p>
+        )}
       </ItemsList>
 
       <Albums data={data} title="Albums" />
 
       <Title>Tracks</Title>
       <ItemsList>
-        {data.tracks
-          ? data.tracks.items.map((elem: any) => (
-              <Track
-                key={elem.id}
-                onClick={() => dispatch(setCurrentTrackURL(elem.preview_url))}
-                isPlayable={!elem.preview_url}
-              >
-                <TrackImage src="/play-button.png" alt={`play ${elem.name}`} />
-                <ItemTextWrapper>
-                  {elem.name}
-                  <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
-                </ItemTextWrapper>
-              </Track>
-            ))
-          : null}
+        {data.tracks.length > 1 ? (
+          data.tracks.items.map((elem: any) => (
+            <Track
+              key={elem.id}
+              onClick={() => dispatch(setCurrentTrackURL(elem.preview_url))}
+              isPlayable={!elem.preview_url}
+            >
+              <TrackImage src="/play-button.png" alt={`play ${elem.name}`} />
+              <ItemTextWrapper>
+                {elem.name}
+                <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
+              </ItemTextWrapper>
+            </Track>
+          ))
+        ) : (
+          <p>There are no results for your query!</p>
+        )}
       </ItemsList>
     </>
   )

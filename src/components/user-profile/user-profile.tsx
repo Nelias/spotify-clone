@@ -34,7 +34,7 @@ const UserImage = styled.img`
   width: 13vw;
   margin: 5px auto 20px auto;
   border-radius: 100%;
-  border: 4px solid #555;
+  border: 6px dotted green;
 
   @media only screen and (max-width: 600px) {
     width: 50vw;
@@ -42,7 +42,7 @@ const UserImage = styled.img`
 `
 
 const UserText = styled.p`
-  color: lime;
+  color: #aaa;
   font-weight: normal;
 `
 
@@ -58,20 +58,20 @@ export const UserProfile: React.FC<{ data: IUser }> = ({ data }) => {
       <UserInfo>
         <UserImage src={data.images[0].url} />
         <UserText>
-          name:&nbsp; <UserData>{data.display_name}</UserData>
+          Name:&nbsp; <UserData>{data.display_name}</UserData>
         </UserText>
         <UserText>
-          e-mail:&nbsp; <UserData>{data.email}</UserData>
+          E-mail:&nbsp; <UserData>{data.email}</UserData>
         </UserText>
         <UserText>
-          country:
+          Country:
           <UserData>
             &nbsp; {flag(data.country)} &nbsp;
             {countries.getName(data.country, 'en')}
           </UserData>
         </UserText>
         <UserText>
-          followers:&nbsp; <UserData>{data.followers.total}</UserData>
+          Followers:&nbsp; <UserData>{data.followers.total}</UserData>
         </UserText>
       </UserInfo>
     </UserWrapper>
