@@ -1,4 +1,3 @@
-import { Title, ItemsList, Item } from './main'
 import * as React from 'react'
 import { setCurrentTrackURL } from '../redux/actions'
 import { useDispatch } from 'react-redux'
@@ -132,7 +131,12 @@ export const Playlist: React.FC<{ data: TPlaylist }> = ({ data }) => {
         {data.tracks.items.map((elem: any) => {
           console.log(elem)
           return (
-            <TrackItem key={elem.id}>
+            <TrackItem
+              key={elem.id}
+              onClick={() =>
+                dispatch(setCurrentTrackURL(elem.track.preview_url))
+              }
+            >
               <TrackDescription>
                 <TrackName>{elem.track.name}</TrackName>
                 <TrackArtist>

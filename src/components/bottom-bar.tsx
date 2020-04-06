@@ -4,7 +4,7 @@ import { connect } from 'react-redux'
 import AudioPlayer from 'react-h5-audio-player'
 import 'react-h5-audio-player/lib/styles.css'
 
-const activePlayerButtonColor = '#31c27c'
+const activePlayerButtonColor = '#00c90c'
 const playerButtonsColor = '#f7f8fa'
 
 const Player = styled(AudioPlayer)`

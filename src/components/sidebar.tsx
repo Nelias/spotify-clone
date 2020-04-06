@@ -26,13 +26,16 @@ const Container = styled.section`
     font-size: 2.3vw;
   }
 `
+
+const ConatinerContent = styled.div`
+  position: fixed;
+`
+
 const LogoWrapper = styled.div`
   display: flex;
   color: white;
-
-  @media only screen and (max-width: 600px) {
-    margin-top: 2px;
-  }
+  padding-top: 20px;
+  justify-content: center;
 `
 
 const Logo = styled.img`
@@ -48,17 +51,14 @@ const Logo = styled.img`
 const List = styled.ul`
   padding: 0;
   width: 100%;
+  margin-top: 30px;
 `
 
 const ListItem = styled.li`
   color: white;
   display: block;
   width: 100%;
-  margin: 40px auto;
-
-  @media only screen and (max-width: 600px) {
-    margin: 30px auto;
-  }
+  margin-bottom: 35px;
 
   a {
     background: #222;
@@ -84,26 +84,28 @@ export const Sidebar: React.FC<{}> = () => {
 
   return (
     <Container>
-      <LogoWrapper>
-        <Logo src="lyre.svg" alt="" />
-        <CompanyName>Stringify</CompanyName>
-      </LogoWrapper>
-      <List>
-        <ListItem
-          onClick={() => {
-            fetchCategories(dispatch)
-          }}
-        >
-          <Link to="/categories">Categories</Link>
-        </ListItem>
-        <ListItem
-          onClick={() => {
-            fetchNewReleases(dispatch)
-          }}
-        >
-          <Link to="/new-releases">New Releases</Link>
-        </ListItem>
-      </List>
+      <ConatinerContent>
+        <LogoWrapper>
+          <Logo src="/lyre.svg" alt="" />
+          <CompanyName>Stringify</CompanyName>
+        </LogoWrapper>
+        <List>
+          <ListItem
+            onClick={() => {
+              fetchCategories(dispatch)
+            }}
+          >
+            <Link to="/categories">Categories</Link>
+          </ListItem>
+          <ListItem
+            onClick={() => {
+              fetchNewReleases(dispatch)
+            }}
+          >
+            <Link to="/new-releases">New Releases</Link>
+          </ListItem>
+        </List>
+      </ConatinerContent>
     </Container>
   )
 }

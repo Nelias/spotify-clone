@@ -5,6 +5,7 @@ import { fetchPlaylist } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
+import { CategoriesWrapper } from './categories'
 
 type TImage = {
   url: string
@@ -38,7 +39,7 @@ export const Playlists: React.FC<{
   const location = useLocation()
 
   return (
-    <>
+    <CategoriesWrapper>
       <Title>{currentCategoryName}</Title>
       <ItemsList>
         {data.playlists
@@ -64,7 +65,7 @@ export const Playlists: React.FC<{
             ))
           : null}
       </ItemsList>
-    </>
+    </CategoriesWrapper>
   )
 }
 

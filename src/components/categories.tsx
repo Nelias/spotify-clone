@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom'
 import { fetchCategoryPlaylists } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
+import styled from 'styled-components'
 
 type TImage = {
   url: string
@@ -22,10 +23,15 @@ interface ICategory {
   }
 }
 
+export const CategoriesWrapper = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
 export const Categories: React.FC<{ data: ICategory }> = ({ data }) => {
   const dispatch = useDispatch()
   return (
-    <>
+    <CategoriesWrapper>
       <Title>Categories</Title>
       <ItemsList>
         {data.categories
@@ -46,7 +52,7 @@ export const Categories: React.FC<{ data: ICategory }> = ({ data }) => {
             ))
           : null}
       </ItemsList>
-    </>
+    </CategoriesWrapper>
   )
 }
 

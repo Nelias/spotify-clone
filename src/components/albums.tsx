@@ -22,10 +22,13 @@ interface IAlbum {
   }
 }
 
-export const Albums: React.FC<{ data: IAlbum }> = ({ data }) => {
+export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
+  data,
+  title,
+}) => {
   return (
     <>
-      <Title>Albums</Title>
+      <Title>{title}</Title>
       <ItemsList>
         {data.albums
           ? data.albums.items.map((elem: TAlbumItem) => (

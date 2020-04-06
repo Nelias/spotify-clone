@@ -30,10 +30,14 @@ const Content = styled.main`
   background: #111;
   color: white;
   width: 90%;
-  display: grid;
   align-items: center;
   margin-top: 45px;
   padding-bottom: 100px;
+
+  a {
+    color: white;
+    text-decoration: none;
+  }
 `
 
 export const ItemsList = styled.ul`
@@ -89,6 +93,8 @@ export const Title = styled.h2`
 
 export const Spinner = styled.img`
   margin: 0 auto;
+  height: 82vh;
+
   width: 130px;
 `
 
@@ -99,6 +105,13 @@ export const shortenName = (name: string) => {
     ? name.slice(0, textLength).concat('...')
     : name
 }
+
+const ErrorWrapper = styled.div`
+  height: 80vh;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+`
 
 export const Main: React.FC<MainProps> = ({
   searchResponseData,
@@ -116,44 +129,40 @@ export const Main: React.FC<MainProps> = ({
   return (
     <Content>
       <Route exact path="/categories/:id/:playlist">
-        {isPlaylistLoading && <Spinner src="spinner.svg" alt="spinner" />}
+        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
         {!isPlaylistLoading && currentPlaylist ? (
           currentPlaylist.status && currentPlaylist.status !== 200 ? (
-            <div>
+            <ErrorWrapper>
               <h2>Playlist Error {currentPlaylist.status}</h2>
               <p>{currentPlaylist.message}</p>
-            </div>
+            </ErrorWrapper>
           ) : (
             <Playlist data={currentPlaylist} />
           )
-        ) : (
-          <p>This path is not valid</p>
-        )}
+        ) : null}
       </Route>
       <Route exact path="/categories/:id">
-        {isPlaylistLoading && <Spinner src="spinner.svg" alt="spinner" />}
+        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
         {!isPlaylistLoading && currentCategoryPlaylists ? (
           currentCategoryPlaylists.status &&
           currentCategoryPlaylists.status !== 200 ? (
-            <div>
+            <ErrorWrapper>
               <h2>Playlist Error {currentCategoryPlaylists.status}</h2>
               <p>{currentCategoryPlaylists.message}</p>
-            </div>
+            </ErrorWrapper>
           ) : (
             <Playlists data={currentCategoryPlaylists} />
           )
-        ) : (
-          <p>This path is not valid</p>
-        )}
+        ) : null}
       </Route>
       <Route exact path="/categories">
-        {areCategoriesLoading && <Spinner src="spinner.svg" alt="spinner" />}
+        {areCategoriesLoading && <Spinner src="/spinner.svg" alt="spinner" />}
         {!areCategoriesLoading && categories ? (
           categories.status && categories.status !== 200 ? (
-            <div>
+            <ErrorWrapper>
               <h2>Categories Error {categories.status}</h2>
               <p>{categories.message}</p>
-            </div>
+            </ErrorWrapper>
           ) : (
             <Categories data={categories} />
           )
@@ -161,27 +170,27 @@ export const Main: React.FC<MainProps> = ({
       </Route>
       <Route exact path="/new-releases">
         {areNewReleasesLoading && isSearchLoading && (
-          <Spinner src="spinner.svg" alt="spinner" />
+          <Spinner src="/spinner.svg" alt="spinner" />
         )}
         {!areNewReleasesLoading && newReleases ? (
           newReleases.status && newReleases.status !== 200 ? (
-            <div>
+            <ErrorWrapper>
               <h2>New Releases Error {newReleases.status}</h2>
               <p>{newReleases.message}</p>
-            </div>
+            </ErrorWrapper>
           ) : (
-            <Albums data={newReleases} />
+            <Albums data={newReleases} title="New Releases" />
           )
         ) : null}
       </Route>
       <Route exact path="/">
-        {isSearchLoading && <Spinner src="spinner.svg" alt="spinner" />}
+        {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
         {!isSearchLoading && searchResponseData ? (
           searchResponseData.status && searchResponseData.status !== 200 ? (
-            <div>
+            <ErrorWrapper>
               <h2>Search Error {searchResponseData.status}</h2>
               <p>{searchResponseData.message}</p>
-            </div>
+            </ErrorWrapper>
           ) : (
             <>
               <Title>Artists</Title>
@@ -203,7 +212,7 @@ export const Main: React.FC<MainProps> = ({
                   : null}
               </ItemsList>
 
-              <Albums data={searchResponseData} />
+              <Albums data={searchResponseData} title="Albums" />
 
               <Title>Tracks</Title>
               <ItemsList>
@@ -221,8 +230,8 @@ export const Main: React.FC<MainProps> = ({
                             elem.images
                               ? elem.album.images[1].url
                               : !elem.preview_url
-                              ? 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/ea/DoNotFeedTroll.svg/200px-DoNotFeedTroll.svg.png'
-                              : 'https://cdn.pixabay.com/photo/2017/08/29/09/40/color-is-changable-in-ps-2692603_960_720.png'
+                              ? '/broken.png'
+                              : '/play-button.png'
                           }
                           alt={`play ${elem.name}`}
                         />
