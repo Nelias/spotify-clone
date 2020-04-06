@@ -7,6 +7,9 @@ import {
   ItemSubtitle,
 } from './main'
 import * as React from 'react'
+import { Link } from 'react-router-dom'
+import { fetchPlaylist } from '../redux/actions'
+import { useDispatch, connect } from 'react-redux'
 
 type TImage = {
   url: string
@@ -21,6 +24,7 @@ export type TAlbumItem = {
   images: TImage[]
   name: string
   artists: TArtist[]
+  href: string
 }
 
 interface IAlbum {
@@ -33,22 +37,38 @@ export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
   data,
   title,
 }) => {
+  console.log('CHUJ', data)
+  const dispatch = useDispatch()
+
   return (
     <>
       <Title>{title}</Title>
       <ItemsList>
         {data.albums
           ? data.albums.items.map((elem: TAlbumItem) => (
-              <Item key={elem.id}>
-                <ItemImage src={elem.images ? elem.images[1].url : ''} alt="" />
-                <ItemTextWrapper>
-                  {elem.name}
-                  <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
-                </ItemTextWrapper>
-              </Item>
+              <Link
+                key={elem.id}
+                to={`/albums/${elem.id}`}
+                onClick={() => {
+                  fetchPlaylist(dispatch, elem.href)
+                }}
+              >
+                <Item>
+                  <ItemImage
+                    src={elem.images ? elem.images[1].url : ''}
+                    alt=""
+                  />
+                  <ItemTextWrapper>
+                    {elem.name}
+                    <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>
+                  </ItemTextWrapper>
+                </Item>
+              </Link>
             ))
           : null}
       </ItemsList>
     </>
   )
 }
+
+export default connect(null, { fetchPlaylist })(Albums)

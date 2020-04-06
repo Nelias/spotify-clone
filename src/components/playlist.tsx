@@ -2,10 +2,13 @@ import * as React from 'react'
 import { setCurrentTrackURL } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
-import { useLocation } from 'react-router-dom'
-
 import { TAlbumItem } from './albums'
 import styled from 'styled-components'
+
+interface PlaylistProps {
+  data: TPlaylist
+  type: 'album' | 'playlist'
+}
 
 type TImage = {
   url: string
@@ -36,10 +39,13 @@ export type TPlaylist = {
   description: string
   images: TImage[]
   primary_color: string
-
   href: string
   tracks: { items: TTracks[] }
   followers: { href: string | null; total: number }
+
+  artists?: { name: string }[]
+  album_type?: string
+  release_date?: string
 }
 
 const PlaylistWrapper = styled.div`
@@ -57,6 +63,10 @@ const PlaylistImage = styled.img`
   max-width: 300px;
   width: 20vw;
   margin-bottom: 15px;
+
+  @media only screen and (max-width: 600px) {
+    width: 45vw;
+  }
 `
 
 const PlaylistName = styled.span`
@@ -88,8 +98,15 @@ const PlayListInfoBox = styled.div`
     Arial, Hiragino Kaku Gothic Pro, Meiryo, MS Gothic, sans-serif;
 `
 
+const ArtistNameSubtitle = styled.h3`
+  margin-top: 5px;
+  font-size: 13px;
+  font-weight: normal;
+`
+
 const TrackList = styled.ol`
   padding-left: 10px;
+
   @media only screen and (max-width: 600px) {
     align-self: baseline;
   }
@@ -123,6 +140,7 @@ const TrackDescription = styled.div`
   flex-direction: column;
   justify-content: center;
   height: inherit;
+  width: 50vw;
 
   @media only screen and (max-width: 600px) {
     width: 48vw;
@@ -152,9 +170,9 @@ const TrackTime = styled.div`
 `
 
 const PlayButton = styled.img<{ isPlayable: boolean }>`
-  width: 35px;
+  width: 40px;
   height: auto;
-  margin-right: 10px;
+  margin-right: 15px;
   filter: ${(props) => (props.isPlayable ? 'grayscale(100%)' : '')};
 `
 
@@ -163,10 +181,8 @@ const PlayerWrapper = styled.div`
   align-items: center;
 `
 
-export const Playlist: React.FC<{ data: TPlaylist }> = ({ data }) => {
+export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   const dispatch = useDispatch()
-  let location = useLocation()
-  console.log(location.pathname, location)
 
   function millisToMinutesAndSeconds(millis: number) {
     var minutes: number = Math.floor(millis / 60000)
@@ -182,18 +198,79 @@ export const Playlist: React.FC<{ data: TPlaylist }> = ({ data }) => {
       : name
   }
 
+  if (type === 'album') {
+    console.log(data, 'ALBUM')
+
+    return (
+      <PlaylistWrapper>
+        <PlayListInfoBox>
+          <PlaylistImage src={data.images[0].url} alt="" />
+          <PlaylistName>{data.name}</PlaylistName>
+          <ArtistNameSubtitle>
+            {data.artists &&
+              data.artists.map((artist: any) => artist.name).join(' ')}
+          </ArtistNameSubtitle>
+          <span>
+            {data.release_date && parseInt(data.release_date)}
+            &nbsp; • &nbsp;
+            {data.tracks.items.length}
+            {data.tracks.items.length > 1 ? ' SONGS' : ' SONG'}
+          </span>
+        </PlayListInfoBox>
+
+        <TrackList>
+          {data.tracks.items.map((elem: any) => {
+            return (
+              <TrackItem
+                key={elem.id}
+                onClick={() => dispatch(setCurrentTrackURL(elem.preview_url))}
+                isPlayable={!elem.preview_url}
+              >
+                <PlayerWrapper>
+                  <PlayButton
+                    isPlayable={!elem.preview_url}
+                    src="/play-button.png"
+                    alt=""
+                  ></PlayButton>
+                  <TrackDescription>
+                    <TrackName>{elem.name}</TrackName>
+                    <TrackArtist>
+                      <span>
+                        {shortenName(
+                          elem.artists
+                            .map((artist: any) => artist.name)
+                            .join(' ')
+                        )}
+                      </span>
+                    </TrackArtist>
+                  </TrackDescription>
+                </PlayerWrapper>
+
+                <TrackTime>
+                  {millisToMinutesAndSeconds(elem.duration_ms)}
+                </TrackTime>
+              </TrackItem>
+            )
+          })}
+        </TrackList>
+      </PlaylistWrapper>
+    )
+  }
+
   return (
     <PlaylistWrapper>
       <PlayListInfoBox>
         <PlaylistImage src={data.images[0].url} alt="" />
         <PlaylistName>{data.name}</PlaylistName>
         <p>{data.description}</p>
-        <span>{data.tracks.items.length} SONGS</span>
+        <span>
+          {data.tracks.items.length}
+          {data.tracks.items.length > 1 ? ' SONGS' : ' SONG'}
+        </span>
       </PlayListInfoBox>
 
       <TrackList>
         {data.tracks.items.map((elem: any) => {
-          console.log(elem)
           return (
             <TrackItem
               key={elem.id}

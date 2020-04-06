@@ -132,6 +132,8 @@ export const Spinner = styled.img`
 export const Track = styled(Item)<TrackProps>`
   height: 200px;
   padding: 3px 0 0 0;
+  filter: ${(props) => (props.isPlayable ? 'grayscale(100%)' : '')};
+
   &:hover {
     ${(props) =>
       props.isPlayable ? 'cursor: not-allowed;' : 'cursor: pointer;'}
@@ -158,7 +160,7 @@ export const Main: React.FC<MainProps> = ({
 
         {!isPlaylistLoading && currentPlaylist && (
           <DataError data={currentPlaylist} title="Playlist">
-            <Playlist data={currentPlaylist} />
+            <Playlist data={currentPlaylist} type="playlist" />
           </DataError>
         )}
       </Route>
@@ -197,6 +199,15 @@ export const Main: React.FC<MainProps> = ({
         {!isUserProfileLoading && userProfile && (
           <DataError data={userProfile} title="User Profile">
             <UserProfile data={userProfile} />
+          </DataError>
+        )}
+      </Route>
+      <Route exact path="/albums/:id">
+        {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+
+        {!isPlaylistLoading && currentPlaylist && (
+          <DataError data={currentPlaylist} title="Playlist">
+            <Playlist data={currentPlaylist} type="album" />
           </DataError>
         )}
       </Route>

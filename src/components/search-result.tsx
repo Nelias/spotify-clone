@@ -57,16 +57,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
                 onClick={() => dispatch(setCurrentTrackURL(elem.preview_url))}
                 isPlayable={!elem.preview_url}
               >
-                <TrackImage
-                  src={
-                    elem.images
-                      ? elem.album.images[1].url
-                      : !elem.preview_url
-                      ? '/broken.png'
-                      : '/play-button.png'
-                  }
-                  alt={`play ${elem.name}`}
-                />
+                <TrackImage src="/play-button.png" alt={`play ${elem.name}`} />
                 <ItemTextWrapper>
                   {elem.name}
                   <ItemSubtitle>{elem.artists[0].name}</ItemSubtitle>

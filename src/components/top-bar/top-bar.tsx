@@ -24,7 +24,7 @@ const Header = styled.header`
 
 const Search = styled.input`
   width: 50%;
-  min-width: 180px;
+  min-width: 110px;
   max-width: 300px;
   padding: 8px 10px;
   border-radius: 40px;
