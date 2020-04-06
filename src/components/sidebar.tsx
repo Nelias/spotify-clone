@@ -60,6 +60,10 @@ const ListItem = styled.li`
   width: 100%;
   margin-bottom: 35px;
 
+  @media only screen and (max-width: 600px) {
+    margin-bottom: 25px;
+  }
+
   a {
     background: #222;
     padding: 10px 20px;

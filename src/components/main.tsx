@@ -33,6 +33,7 @@ const Content = styled.main`
   align-items: center;
   margin-top: 45px;
   padding-bottom: 100px;
+  overflow: hidden;
 
   a {
     color: white;
