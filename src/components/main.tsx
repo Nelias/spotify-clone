@@ -1,13 +1,14 @@
 import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
-import { setCurrentTrackURL } from '../redux/actions'
-import { useDispatch } from 'react-redux'
 import { Route } from 'react-router-dom'
 import { Albums } from './albums'
 import Categories from './categories'
 import Playlists from './playlists'
 import Playlist from './playlist'
+import { UserProfile } from './user-profile'
+import { SearchResult } from './search-result'
+import { DataError } from './data-error'
 
 type TError = {
   status: number
@@ -24,6 +25,8 @@ interface MainProps {
   currentCategoryPlaylists: TError | any
   currentPlaylist: TError | any
   isPlaylistLoading: boolean
+  userProfile: TError | any
+  isUserProfileLoading: boolean
 }
 
 const Content = styled.main`
@@ -71,22 +74,6 @@ export const ArtistImage = styled(ItemImage)`
   border-radius: 100%;
 `
 
-export const TrackImage = styled.img`
-  width: 50px;
-  height: 50px;
-`
-
-interface TrackProps {
-  isPlayable: boolean
-}
-
-const Track = styled(Item)<TrackProps>`
-  &:hover {
-    ${(props) =>
-      props.isPlayable ? 'cursor: not-allowed;' : 'cursor: pointer;'}
-  }
-`
-
 export const Title = styled.h2`
   font-size: 1.5rem;
   margin-top: 50px;
@@ -107,13 +94,6 @@ export const shortenName = (name: string) => {
     : name
 }
 
-const ErrorWrapper = styled.div`
-  height: 80vh;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-`
-
 export const Main: React.FC<MainProps> = ({
   searchResponseData,
   isSearchLoading,
@@ -124,129 +104,66 @@ export const Main: React.FC<MainProps> = ({
   currentCategoryPlaylists,
   currentPlaylist,
   isPlaylistLoading,
+  userProfile,
+  isUserProfileLoading,
 }) => {
-  const dispatch = useDispatch()
-
   return (
     <Content>
       <Route exact path="/categories/:id/:playlist">
         {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
-        {!isPlaylistLoading && currentPlaylist ? (
-          currentPlaylist.status && currentPlaylist.status !== 200 ? (
-            <ErrorWrapper>
-              <h2>Playlist Error {currentPlaylist.status}</h2>
-              <p>{currentPlaylist.message}</p>
-            </ErrorWrapper>
-          ) : (
+
+        {!isPlaylistLoading && currentPlaylist && (
+          <DataError data={currentPlaylist} title="Playlist">
             <Playlist data={currentPlaylist} />
-          )
-        ) : null}
+          </DataError>
+        )}
       </Route>
       <Route exact path="/categories/:id">
         {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
-        {!isPlaylistLoading && currentCategoryPlaylists ? (
-          currentCategoryPlaylists.status &&
-          currentCategoryPlaylists.status !== 200 ? (
-            <ErrorWrapper>
-              <h2>Playlist Error {currentCategoryPlaylists.status}</h2>
-              <p>{currentCategoryPlaylists.message}</p>
-            </ErrorWrapper>
-          ) : (
+
+        {!isPlaylistLoading && currentCategoryPlaylists && (
+          <DataError data={currentCategoryPlaylists} title="Playlist">
             <Playlists data={currentCategoryPlaylists} />
-          )
-        ) : null}
+          </DataError>
+        )}
       </Route>
       <Route exact path="/categories">
         {areCategoriesLoading && <Spinner src="/spinner.svg" alt="spinner" />}
-        {!areCategoriesLoading && categories ? (
-          categories.status && categories.status !== 200 ? (
-            <ErrorWrapper>
-              <h2>Categories Error {categories.status}</h2>
-              <p>{categories.message}</p>
-            </ErrorWrapper>
-          ) : (
+
+        {!areCategoriesLoading && categories && (
+          <DataError data={categories} title="Categories">
             <Categories data={categories} />
-          )
-        ) : null}
+          </DataError>
+        )}
       </Route>
       <Route exact path="/new-releases">
         {areNewReleasesLoading && isSearchLoading && (
           <Spinner src="/spinner.svg" alt="spinner" />
         )}
-        {!areNewReleasesLoading && newReleases ? (
-          newReleases.status && newReleases.status !== 200 ? (
-            <ErrorWrapper>
-              <h2>New Releases Error {newReleases.status}</h2>
-              <p>{newReleases.message}</p>
-            </ErrorWrapper>
-          ) : (
+
+        {!areNewReleasesLoading && (
+          <DataError data={newReleases} title="New Releases">
             <Albums data={newReleases} title="New Releases" />
-          )
-        ) : null}
+          </DataError>
+        )}
+      </Route>
+      <Route exact path="/user-profile">
+        {isUserProfileLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+
+        {!isUserProfileLoading && userProfile && (
+          <DataError data={userProfile} title="User Profile">
+            <UserProfile data={userProfile} />
+          </DataError>
+        )}
       </Route>
       <Route exact path="/">
         {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
-        {!isSearchLoading && searchResponseData ? (
-          searchResponseData.status && searchResponseData.status !== 200 ? (
-            <ErrorWrapper>
-              <h2>Search Error {searchResponseData.status}</h2>
-              <p>{searchResponseData.message}</p>
-            </ErrorWrapper>
-          ) : (
-            <>
-              <Title>Artists</Title>
-              <ItemsList>
-                {searchResponseData.artists
-                  ? searchResponseData.artists.items.map((artist: any) => (
-                      <Item key={artist.id}>
-                        <ArtistImage
-                          src={
-                            artist.images.length > 0
-                              ? artist.images[0].url
-                              : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
-                          }
-                        />
 
-                        {shortenName(artist.name)}
-                      </Item>
-                    ))
-                  : null}
-              </ItemsList>
-
-              <Albums data={searchResponseData} title="Albums" />
-
-              <Title>Tracks</Title>
-              <ItemsList>
-                {searchResponseData.tracks
-                  ? searchResponseData.tracks.items.map((elem: any) => (
-                      <Track
-                        key={elem.id}
-                        onClick={() =>
-                          dispatch(setCurrentTrackURL(elem.preview_url))
-                        }
-                        isPlayable={!elem.preview_url}
-                      >
-                        <TrackImage
-                          src={
-                            elem.images
-                              ? elem.album.images[1].url
-                              : !elem.preview_url
-                              ? '/broken.png'
-                              : '/play-button.png'
-                          }
-                          alt={`play ${elem.name}`}
-                        />
-                        {shortenName(elem.name)}
-                        <br />
-                        <br />
-                        {shortenName(elem.artists[0].name)}
-                      </Track>
-                    ))
-                  : null}
-              </ItemsList>
-            </>
-          )
-        ) : null}
+        {!isSearchLoading && searchResponseData && (
+          <DataError data={searchResponseData} title="Search">
+            <SearchResult data={searchResponseData} />
+          </DataError>
+        )}
       </Route>
     </Content>
   )
@@ -255,12 +172,16 @@ export const Main: React.FC<MainProps> = ({
 const mapStateToProps = (state: any) => {
   console.log(state)
   const { searchResponseData, isSearchLoading } = state.search
+
   const {
     categories,
     areCategoriesLoading,
     newReleases,
     areNewReleasesLoading,
+    userProfile,
+    isUserProfileLoading,
   } = state.sidebar
+
   const {
     currentCategoryPlaylists,
     currentPlaylist,
@@ -277,7 +198,9 @@ const mapStateToProps = (state: any) => {
     currentCategoryPlaylists,
     currentPlaylist,
     isPlaylistLoading,
+    userProfile,
+    isUserProfileLoading,
   }
 }
 
-export default connect(mapStateToProps, { setCurrentTrackURL })(Main)
+export default connect(mapStateToProps, {})(Main)

@@ -5,13 +5,18 @@ import {
   FETCH_NEW_RELEASES,
   FETCH_NEW_RELEASES_SUCCESS,
   FETCH_NEW_RELEASES_FAIL,
+  FETCH_USER_PROFILE_FAIL,
+  FETCH_USER_PROFILE_SUCCESS,
+  FETCH_USER_PROFILE,
 } from '../actionTypes'
 
 const initialState = {
   categories: null,
   newReleases: null,
+  userProfile: null,
   areCategoriesLoading: null,
   areNewReleasesLoading: null,
+  isUserProfileLoading: null,
 }
 
 export default function sidebarReducer(state = initialState, action) {
@@ -69,6 +74,34 @@ export default function sidebarReducer(state = initialState, action) {
               message: 'Could not find resource',
             },
         areNewReleasesLoading: false,
+      }
+    }
+
+    case FETCH_USER_PROFILE: {
+      return {
+        ...state,
+        isUserProfileLoading: true,
+      }
+    }
+
+    case FETCH_USER_PROFILE_SUCCESS: {
+      return {
+        ...state,
+        userProfile: action.payload.data,
+        isUserProfileLoading: false,
+      }
+    }
+
+    case FETCH_USER_PROFILE_FAIL: {
+      return {
+        ...state,
+        userProfile: action.payload.response.data
+          ? action.payload.response.data.error
+          : {
+              status: action.payload.response.status,
+              message: 'Could not find resource',
+            },
+        isUserProfileLoading: false,
       }
     }
 

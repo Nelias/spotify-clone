@@ -75,7 +75,7 @@ const PlayListInfoBox = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 15px;
+  margin-top: 30px;
   padding-bottom: 30px;
 
   font-size: 14px;

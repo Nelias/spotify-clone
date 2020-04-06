@@ -4,7 +4,11 @@ import { Link } from 'react-router-dom'
 import { useDispatch } from 'react-redux'
 
 import { connect } from 'react-redux'
-import { fetchCategories, fetchNewReleases } from '../redux/actions'
+import {
+  fetchCategories,
+  fetchNewReleases,
+  fetchUserProfile,
+} from '../redux/actions'
 
 const Container = styled.section`
   width: 10%;
@@ -108,10 +112,21 @@ export const Sidebar: React.FC<{}> = () => {
           >
             <Link to="/new-releases">New Releases</Link>
           </ListItem>
+          <ListItem
+            onClick={() => {
+              fetchUserProfile(dispatch)
+            }}
+          >
+            <Link to="/user-profile">User Profile</Link>
+          </ListItem>
         </List>
       </ConatinerContent>
     </Container>
   )
 }
 
-export default connect(null, { fetchCategories, fetchNewReleases })(Sidebar)
+export default connect(null, {
+  fetchCategories,
+  fetchNewReleases,
+  fetchUserProfile,
+})(Sidebar)

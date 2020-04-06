@@ -15,6 +15,9 @@ import {
   FETCH_PLAYLIST,
   FETCH_PLAYLIST_SUCCESS,
   FETCH_PLAYLIST_FAIL,
+  FETCH_USER_PROFILE,
+  FETCH_USER_PROFILE_SUCCESS,
+  FETCH_USER_PROFILE_FAIL,
   SET_CURRENT_TRACK,
 } from './actionTypes'
 import axios from 'axios'
@@ -52,7 +55,7 @@ export const fetchCategories = (dispatch, categoryName) => {
 
   axios({
     method: 'GET',
-    url: `https://api.spotify.com/v1/browse/categories`,
+    url: 'https://api.spotify.com/v1/browse/categories',
     responseType: 'json',
     headers: {
       Accept: 'application/json',
@@ -78,7 +81,7 @@ export const fetchNewReleases = (dispatch) => {
 
   axios({
     method: 'GET',
-    url: `https://api.spotify.com/v1/browse/new-releases`,
+    url: 'https://api.spotify.com/v1/browse/new-releases',
     responseType: 'json',
     headers: {
       Accept: 'application/json',
@@ -150,6 +153,29 @@ export const fetchPlaylist = (dispatch, playlistURL) => {
     .catch((err) => {
       console.error(err)
       dispatch({ type: FETCH_PLAYLIST_FAIL, payload: err, error: true })
+    })
+}
+
+export const fetchUserProfile = (dispatch) => {
+  dispatch({ type: FETCH_USER_PROFILE, payload: null })
+
+  axios({
+    method: 'GET',
+    url: 'https://api.spotify.com/v1/me',
+    responseType: 'json',
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      Authorization: `Bearer ${process.env.REACT_APP_SPOTIFY_OAUTH_TOKEN}`,
+    },
+  })
+    .then((response) => response.data)
+    .then((data) =>
+      dispatch({ type: FETCH_USER_PROFILE_SUCCESS, payload: { data } })
+    )
+    .catch((err) => {
+      console.error(err)
+      dispatch({ type: FETCH_USER_PROFILE_FAIL, payload: err, error: true })
     })
 }
 
