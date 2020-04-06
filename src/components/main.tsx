@@ -6,7 +6,7 @@ import { Albums } from './albums'
 import Categories from './categories'
 import Playlists from './playlists'
 import Playlist from './playlist'
-import { UserProfile } from './user-profile'
+import { UserProfile } from './user-profile/user-profile'
 import { SearchResult } from './search-result'
 import { DataError } from './data-error'
 
