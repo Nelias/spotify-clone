@@ -22,3 +22,17 @@ Built with TypeScript + React + Redux + Spotify Web API + Jest + Enzyme + Cypres
 
 1. Run `npm test` for unit tests
 2. Run `npx cypress run` for integration tests
+
+## Application preview
+
+![Alt text](public/preview/playlist.png?raw=true 'Playlist')
+
+![Alt text](public/preview/loading.png?raw=true 'Loading')
+
+![Alt text](public/preview/album.png?raw=true 'Album with tracks')
+
+![Alt text](public/preview/new.png?raw=true 'New Releases')
+
+![Alt text](public/preview/ipad-error.png?raw=true 'Error message')
+
+![Alt text](public/preview/mobile.png?raw=true 'Mobile')
