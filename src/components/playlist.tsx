@@ -97,6 +97,10 @@ const PlayListInfoBox = styled.div`
   font-family: spotify-circular, spotify-circular-cyrillic,
     spotify-circular-arabic, spotify-circular-hebrew, Helvetica Neue, Helvetica,
     Arial, Hiragino Kaku Gothic Pro, Meiryo, MS Gothic, sans-serif;
+
+  @media only screen and (max-width: 600px) {
+    width: 230px;
+  }
 `
 
 const ArtistNameSubtitle = styled.h3`
@@ -106,20 +110,14 @@ const ArtistNameSubtitle = styled.h3`
 `
 
 const TrackList = styled.ol`
-  padding-left: 10px;
-
-  @media only screen and (max-width: 600px) {
-    align-self: baseline;
-  }
+  padding: 0;
 `
 
 const TrackItem = styled.li<{ isPlayable: boolean }>`
   display: flex;
   justify-content: space-between;
   height: 65px;
-
-  white-space: nowrap;
-  overflow: hidden;
+  margin-left: -3px;
 
   font-size: 14px;
   line-height: 20px;
@@ -144,23 +142,27 @@ const TrackDescription = styled.div`
   width: 50vw;
 
   @media only screen and (max-width: 600px) {
-    width: 48vw;
-    overflow: hidden;
+    width: 41vw;
   }
 `
 
-const TrackName = styled.div`
-  display: flex;
+const TrackArtist = styled.span`
+  display: block;
+  min-width: 0;
+  padding: 0;
+  text-align: left;
 
+  overflow: hidden;
+  white-space: nowrap;
+  word-break: break-all;
+  text-overflow: ellipsis;
+`
+
+const TrackName = styled(TrackArtist)`
   font-size: 16px;
   line-height: 22px;
   letter-spacing: 0.015em;
   color: #fff;
-`
-
-const TrackArtist = styled.div`
-  display: flex;
-  justify-content: left;
 `
 
 const TrackTime = styled.div`
@@ -182,10 +184,17 @@ const PlayerWrapper = styled.div`
   align-items: center;
 `
 
+const InfoFooter = styled.span``
+
+const PlaylistDescription = styled.p`
+  white-space: wrap;
+  word-break: break-word;
+`
+
 export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   const dispatch = useDispatch()
 
-  function millisToMinutesAndSeconds(millis: number) {
+  const millisToMinutesAndSeconds = (millis: number) => {
     if (millis) {
       var minutes: number = Math.floor(millis / 60000)
       var seconds: any = ((millis % 60000) / 1000).toFixed(0)
@@ -193,14 +202,6 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
     } else {
       return null
     }
-  }
-
-  function shortenName(name: string) {
-    const textLength: number = 60
-
-    return name?.length > textLength
-      ? name.slice(0, textLength).concat('...')
-      : name
   }
 
   // Optional chaining solved an error with one track missing in Ultimate Indie playlist
@@ -223,12 +224,12 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
                 </Link>
               ))}
           </ArtistNameSubtitle>
-          <span>
+          <InfoFooter>
             {data?.release_date && parseInt(data?.release_date)}
             &nbsp; • &nbsp;
             {data?.tracks?.items.length}
             {data?.tracks?.items.length > 1 ? ' SONGS' : ' SONG'}
-          </span>
+          </InfoFooter>
         </PlayListInfoBox>
 
         <TrackList>
@@ -248,13 +249,9 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
                   <TrackDescription>
                     <TrackName>{elem?.name}</TrackName>
                     <TrackArtist>
-                      <span>
-                        {shortenName(
-                          elem?.artists
-                            .map((artist: any) => artist.name)
-                            .join(' ')
-                        )}
-                      </span>
+                      {elem?.artists
+                        .map((artist: any) => artist.name)
+                        .join(' ')}
                     </TrackArtist>
                   </TrackDescription>
                 </PlayerWrapper>
@@ -268,60 +265,58 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
         </TrackList>
       </PlaylistWrapper>
     )
+  } else if (type === 'playlist') {
+    return (
+      <PlaylistWrapper>
+        <PlayListInfoBox>
+          <PlaylistImage src={data?.images[0].url} alt="" />
+          <PlaylistName>{data?.name}</PlaylistName>
+          <PlaylistDescription>{data?.description}</PlaylistDescription>
+          <InfoFooter>
+            {data?.tracks?.items.length}
+            {data?.tracks?.items.length > 1 ? ' SONGS' : ' SONG'}
+          </InfoFooter>
+        </PlayListInfoBox>
+
+        <TrackList>
+          {data?.tracks?.items.map((elem: any) => {
+            return (
+              <TrackItem
+                key={elem.id}
+                onClick={() =>
+                  dispatch(setCurrentTrackURL(elem?.track?.preview_url))
+                }
+                isPlayable={!elem?.track?.preview_url}
+              >
+                <PlayerWrapper>
+                  <PlayButton
+                    isPlayable={!elem?.track?.preview_url}
+                    src="/play-button.png"
+                    alt=""
+                  ></PlayButton>
+                  <TrackDescription>
+                    <TrackName>{elem?.track?.name}</TrackName>
+                    <TrackArtist>
+                      {elem?.track?.artists
+                        .map((artist: any) => artist?.name)
+                        .concat(' • ', `${elem?.track?.album.name}`)
+                        .join(' ')}
+                    </TrackArtist>
+                  </TrackDescription>
+                </PlayerWrapper>
+
+                <TrackTime>
+                  {millisToMinutesAndSeconds(elem?.track?.duration_ms)}
+                </TrackTime>
+              </TrackItem>
+            )
+          })}
+        </TrackList>
+      </PlaylistWrapper>
+    )
+  } else {
+    return null
   }
-
-  return (
-    <PlaylistWrapper>
-      <PlayListInfoBox>
-        <PlaylistImage src={data?.images[0].url} alt="" />
-        <PlaylistName>{data?.name}</PlaylistName>
-        <p>{data?.description}</p>
-        <span>
-          {data?.tracks?.items.length}
-          {data?.tracks?.items.length > 1 ? ' SONGS' : ' SONG'}
-        </span>
-      </PlayListInfoBox>
-
-      <TrackList>
-        {data?.tracks?.items.map((elem: any) => {
-          return (
-            <TrackItem
-              key={elem.id}
-              onClick={() =>
-                dispatch(setCurrentTrackURL(elem?.track?.preview_url))
-              }
-              isPlayable={!elem?.track?.preview_url}
-            >
-              <PlayerWrapper>
-                <PlayButton
-                  isPlayable={!elem?.track?.preview_url}
-                  src="/play-button.png"
-                  alt=""
-                ></PlayButton>
-                <TrackDescription>
-                  <TrackName>{elem?.track?.name}</TrackName>
-                  <TrackArtist>
-                    <span>
-                      {shortenName(
-                        elem?.track?.artists
-                          .map((artist: any) => artist?.name)
-                          .concat(' • ', `${elem?.track?.album.name}`)
-                          .join(' ')
-                      )}
-                    </span>
-                  </TrackArtist>
-                </TrackDescription>
-              </PlayerWrapper>
-
-              <TrackTime>
-                {millisToMinutesAndSeconds(elem?.track?.duration_ms)}
-              </TrackTime>
-            </TrackItem>
-          )
-        })}
-      </TrackList>
-    </PlaylistWrapper>
-  )
 }
 
 export default connect(null, { setCurrentTrackURL, fetchArtistAlbums })(
