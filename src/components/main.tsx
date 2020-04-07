@@ -231,7 +231,7 @@ export const Main: React.FC<MainProps> = ({
             </DataError>
           )}
         </Route>
-        <Route exact path="/albums/:id">
+        <Route exact path="/album/:id">
           {isPlaylistLoading && (
             <Spinner
               src={`${process.env.PUBLIC_URL}/spinner.svg`}

@@ -38,11 +38,11 @@ export const ArtistAlbums: React.FC<{ data: IAlbum }> = ({ data }) => {
     <>
       <Title>{data?.items[0].artists[0].name}</Title>
       <ItemsList>
-        {data?.items.length > 1 ? (
+        {data?.items.length > 0 ? (
           data.items.map((elem: TAlbumItem) => (
             <Link
               key={elem.id}
-              to={`/albums/${elem.id}`}
+              to={`/album/${elem.id}`}
               onClick={() => {
                 fetchPlaylist(dispatch, elem.href)
               }}

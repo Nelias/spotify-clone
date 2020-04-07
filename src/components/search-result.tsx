@@ -28,7 +28,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
     <>
       <Title>Artists</Title>
       <ItemsList>
-        {data?.artists?.items.length > 1 ? (
+        {data?.artists?.items.length > 0 ? (
           data.artists.items.map((artist: any) => (
             <Link
               key={artist.id}
@@ -59,7 +59,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
 
       <Title>Tracks</Title>
       <ItemsList>
-        {data.tracks && data.tracks.items.length > 1 ? (
+        {data.tracks && data.tracks.items.length > 0 ? (
           data.tracks.items.map((elem: any) => (
             <Track
               key={elem.id}
