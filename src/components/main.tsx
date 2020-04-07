@@ -8,7 +8,7 @@ import Playlists from './playlists'
 import Playlist from './playlist'
 import { UserProfile } from './user-profile/user-profile'
 import { SearchResult } from './search-result'
-import { DataError } from './data-error'
+import { DataError, ErrorWrapper } from './data-error'
 
 type TError = {
   status: number
@@ -212,7 +212,7 @@ export const Main: React.FC<MainProps> = ({
             </DataError>
           )}
         </Route>
-        <Route exact path="/">
+        <Route exact path="/search">
           {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
 
           {!isSearchLoading && searchResponseData && (
@@ -220,6 +220,11 @@ export const Main: React.FC<MainProps> = ({
               <SearchResult data={searchResponseData} />
             </DataError>
           )}
+        </Route>
+        <Route exact path="/">
+          <ErrorWrapper>
+            <h2>Welcome to Stringify!</h2>
+          </ErrorWrapper>
         </Route>
         <Route>
           <DataError

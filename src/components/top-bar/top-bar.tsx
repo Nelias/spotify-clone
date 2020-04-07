@@ -62,7 +62,7 @@ export const TopBar: React.FC<{}> = () => {
     if (key === 'Enter') {
       dispatch(setSearchPhrase(inputPhrase))
       fetchSearchData(dispatch, inputPhrase)
-      history.push('/')
+      history.push('/search')
     }
   }
 
@@ -79,7 +79,7 @@ export const TopBar: React.FC<{}> = () => {
         onClick={() => {
           dispatch(setSearchPhrase(inputPhrase))
           fetchSearchData(dispatch, inputPhrase)
-          history.push('/')
+          history.push('/search')
         }}
         type="button"
       >

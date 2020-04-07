@@ -27,7 +27,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
     <>
       <Title>Artists</Title>
       <ItemsList>
-        {data.artists.length > 1 ? (
+        {data.artists && data.artists.items.length > 1 ? (
           data.artists.items.map((artist: any) => (
             <Item key={artist.id}>
               <ArtistImage
@@ -44,7 +44,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
             </Item>
           ))
         ) : (
-          <p>There are no results for your query!</p>
+          <p>There are no search results for your query!</p>
         )}
       </ItemsList>
 
@@ -52,7 +52,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
 
       <Title>Tracks</Title>
       <ItemsList>
-        {data.tracks.length > 1 ? (
+        {data.tracks && data.tracks.items.length > 1 ? (
           data.tracks.items.map((elem: any) => (
             <Track
               key={elem.id}
@@ -67,7 +67,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
             </Track>
           ))
         ) : (
-          <p>There are no results for your query!</p>
+          <p>There are no search results for your query!</p>
         )}
       </ItemsList>
     </>

@@ -33,6 +33,10 @@ const Container = styled.section`
 
 const ConatinerContent = styled.div`
   position: fixed;
+
+  a {
+    text-decoration: none;
+  }
 `
 
 const LogoWrapper = styled.div`
@@ -93,10 +97,12 @@ export const Sidebar: React.FC<{}> = () => {
   return (
     <Container>
       <ConatinerContent>
-        <LogoWrapper>
-          <Logo src="/lyre.svg" alt="" />
-          <CompanyName>Stringify</CompanyName>
-        </LogoWrapper>
+        <Link to="/">
+          <LogoWrapper>
+            <Logo src="/lyre.svg" alt="" />
+            <CompanyName>Stringify</CompanyName>
+          </LogoWrapper>
+        </Link>
         <List>
           <ListItem
             onClick={() => {

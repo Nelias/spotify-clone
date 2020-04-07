@@ -1,7 +1,7 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const ErrorWrapper = styled.div`
+export const ErrorWrapper = styled.div`
   height: 80vh;
   display: flex;
   flex-direction: column;

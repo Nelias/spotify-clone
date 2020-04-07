@@ -62,7 +62,7 @@ export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
             </Link>
           ))
         ) : (
-          <p>There are no results for your query</p>
+          <p>There are no search results for your query!</p>
         )}
       </ItemsList>
     </>
