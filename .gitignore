@@ -3,3 +3,6 @@ build
 
 .envrc
 .env
+
+cypress/videos
+cypress/screenshots
