@@ -28,23 +28,18 @@ export type TAlbumItem = {
 }
 
 interface IAlbum {
-  albums: {
-    items: TAlbumItem[]
-  }
+  items: TAlbumItem[]
 }
 
-export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
-  data,
-  title,
-}) => {
+export const ArtistAlbums: React.FC<{ data: IAlbum }> = ({ data }) => {
   const dispatch = useDispatch()
 
   return (
     <>
-      <Title>{title}</Title>
+      <Title>{data?.items[0].artists[0].name}</Title>
       <ItemsList>
-        {data?.albums?.items.length > 1 ? (
-          data.albums.items.map((elem: TAlbumItem) => (
+        {data?.items.length > 1 ? (
+          data.items.map((elem: TAlbumItem) => (
             <Link
               key={elem.id}
               to={`/albums/${elem.id}`}
@@ -62,11 +57,11 @@ export const Albums: React.FC<{ data: IAlbum; title: string }> = ({
             </Link>
           ))
         ) : (
-          <p>There are no search results for your query!</p>
+          <p>This artist doesn't have any albums!</p>
         )}
       </ItemsList>
     </>
   )
 }
 
-export default connect(null, { fetchPlaylist })(Albums)
+export default connect(null, { fetchPlaylist })(ArtistAlbums)

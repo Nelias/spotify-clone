@@ -1,5 +1,5 @@
 import * as React from 'react'
-import { setCurrentTrackURL } from '../redux/actions'
+import { setCurrentTrackURL, fetchArtistAlbums } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 
@@ -14,6 +14,7 @@ import {
   ItemSubtitle,
   ItemTextWrapper,
 } from './main'
+import { Link } from 'react-router-dom'
 
 export const TrackImage = styled.img`
   width: 50px;
@@ -27,21 +28,27 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
     <>
       <Title>Artists</Title>
       <ItemsList>
-        {data.artists && data.artists.items.length > 1 ? (
+        {data?.artists?.items.length > 1 ? (
           data.artists.items.map((artist: any) => (
-            <Item key={artist.id}>
-              <ArtistImage
-                src={
-                  artist.images.length > 0
-                    ? artist.images[0].url
-                    : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
-                }
-              />
-              <ItemTextWrapper>
-                {artist.name}
-                <ItemSubtitle>Artist</ItemSubtitle>
-              </ItemTextWrapper>
-            </Item>
+            <Link
+              key={artist.id}
+              to={`/artist/${artist.id}`}
+              onClick={() => fetchArtistAlbums(dispatch, artist.id)}
+            >
+              <Item>
+                <ArtistImage
+                  src={
+                    artist.images.length > 0
+                      ? artist.images[0].url
+                      : 'https://c1.staticflickr.com/1/105/304194006_922af2210e_z.jpg?zz=1'
+                  }
+                />
+                <ItemTextWrapper>
+                  {artist.name}
+                  <ItemSubtitle>Artist</ItemSubtitle>
+                </ItemTextWrapper>
+              </Item>
+            </Link>
           ))
         ) : (
           <p>There are no search results for your query!</p>
@@ -74,4 +81,6 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
   )
 }
 
-export default connect(null, { setCurrentTrackURL })(SearchResult)
+export default connect(null, { setCurrentTrackURL, fetchArtistAlbums })(
+  SearchResult
+)

@@ -9,6 +9,7 @@ import Playlist from './playlist'
 import { UserProfile } from './user-profile/user-profile'
 import { SearchResult } from './search-result'
 import { DataError, ErrorWrapper } from './data-error'
+import { ArtistAlbums } from './artist-albums'
 
 type TError = {
   status: number
@@ -31,6 +32,8 @@ interface MainProps {
   isPlaylistLoading: boolean
   userProfile: TError | any
   isUserProfileLoading: boolean
+  artistAlbums: TError | any
+  areArtistAlbumsLoading: boolean
 }
 
 const itemContentWidth = '140px'
@@ -152,12 +155,19 @@ export const Main: React.FC<MainProps> = ({
   isPlaylistLoading,
   userProfile,
   isUserProfileLoading,
+  artistAlbums,
+  areArtistAlbumsLoading,
 }) => {
   return (
     <Content>
       <Switch>
         <Route exact path="/categories/:id/:playlist">
-          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {isPlaylistLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!isPlaylistLoading && currentPlaylist && (
             <DataError data={currentPlaylist} title="Playlist">
@@ -166,7 +176,12 @@ export const Main: React.FC<MainProps> = ({
           )}
         </Route>
         <Route exact path="/categories/:id">
-          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {isPlaylistLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!isPlaylistLoading && currentCategoryPlaylists && (
             <DataError data={currentCategoryPlaylists} title="Playlist">
@@ -175,7 +190,12 @@ export const Main: React.FC<MainProps> = ({
           )}
         </Route>
         <Route exact path="/categories">
-          {areCategoriesLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {areCategoriesLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!areCategoriesLoading && categories && (
             <DataError data={categories} title="Categories">
@@ -185,7 +205,10 @@ export const Main: React.FC<MainProps> = ({
         </Route>
         <Route exact path="/new-releases">
           {areNewReleasesLoading && isSearchLoading && (
-            <Spinner src="/spinner.svg" alt="spinner" />
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
           )}
 
           {!areNewReleasesLoading && newReleases && (
@@ -195,7 +218,12 @@ export const Main: React.FC<MainProps> = ({
           )}
         </Route>
         <Route exact path="/user-profile">
-          {isUserProfileLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {isUserProfileLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!isUserProfileLoading && userProfile && (
             <DataError data={userProfile} title="User Profile">
@@ -204,7 +232,12 @@ export const Main: React.FC<MainProps> = ({
           )}
         </Route>
         <Route exact path="/albums/:id">
-          {isPlaylistLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {isPlaylistLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!isPlaylistLoading && currentPlaylist && (
             <DataError data={currentPlaylist} title="Playlist">
@@ -212,8 +245,28 @@ export const Main: React.FC<MainProps> = ({
             </DataError>
           )}
         </Route>
+        artistAlbums
+        <Route exact path="/artist/:id">
+          {areArtistAlbumsLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
+
+          {!areArtistAlbumsLoading && artistAlbums && (
+            <DataError data={artistAlbums} title="Search">
+              <ArtistAlbums data={artistAlbums} />
+            </DataError>
+          )}
+        </Route>
         <Route exact path="/search">
-          {isSearchLoading && <Spinner src="/spinner.svg" alt="spinner" />}
+          {isSearchLoading && (
+            <Spinner
+              src={`${process.env.PUBLIC_URL}/spinner.svg`}
+              alt="spinner"
+            />
+          )}
 
           {!isSearchLoading && searchResponseData && (
             <DataError data={searchResponseData} title="Search">
@@ -256,6 +309,8 @@ const mapStateToProps = (state: any) => {
     currentCategoryPlaylists,
     currentPlaylist,
     isPlaylistLoading,
+    artistAlbums,
+    areArtistAlbumsLoading,
   } = state.player
 
   return {
@@ -270,6 +325,8 @@ const mapStateToProps = (state: any) => {
     isPlaylistLoading,
     userProfile,
     isUserProfileLoading,
+    artistAlbums,
+    areArtistAlbumsLoading,
   }
 }
 

@@ -56,22 +56,22 @@ export const UserProfile: React.FC<{ data: IUser }> = ({ data }) => {
     <UserWrapper>
       <Title>User Profile</Title>
       <UserInfo>
-        <UserImage src={data.images[0].url} />
+        <UserImage src={data?.images[0].url} />
         <UserText>
-          Name:&nbsp; <UserData>{data.display_name}</UserData>
+          Name:&nbsp; <UserData>{data?.display_name}</UserData>
         </UserText>
         <UserText>
-          E-mail:&nbsp; <UserData>{data.email}</UserData>
+          E-mail:&nbsp; <UserData>{data?.email}</UserData>
         </UserText>
         <UserText>
           Country:
           <UserData>
-            &nbsp; {flag(data.country)} &nbsp;
-            {countries.getName(data.country, 'en')}
+            &nbsp; {flag(data?.country)} &nbsp;
+            {countries.getName(data?.country, 'en')}
           </UserData>
         </UserText>
         <UserText>
-          Followers:&nbsp; <UserData>{data.followers.total}</UserData>
+          Followers:&nbsp; <UserData>{data?.followers.total}</UserData>
         </UserText>
       </UserInfo>
     </UserWrapper>

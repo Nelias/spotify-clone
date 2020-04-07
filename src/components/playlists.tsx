@@ -49,30 +49,25 @@ export const Playlists: React.FC<{
     <CategoriesWrapper>
       <Title>{currentCategoryName}</Title>
       <ItemsList>
-        {data.playlists
-          ? data.playlists.items.map((elem: TPlaylistItem) => (
-              <Link
-                key={elem.id}
-                to={`/categories${location.pathname.substr(
-                  location.pathname.lastIndexOf('/')
-                )}/${elem.id}`}
-                onClick={() => {
-                  fetchPlaylist(dispatch, elem.href)
-                }}
-              >
-                <Item key={elem.id}>
-                  <ItemImage
-                    src={elem.images ? elem.images[0].url : ''}
-                    alt=""
-                  />
-                  <ItemTextWrapper>
-                    {elem.name}
-                    <ItemSubtitle>By Spotify</ItemSubtitle>
-                  </ItemTextWrapper>
-                </Item>
-              </Link>
-            ))
-          : null}
+        {data?.playlists?.items.map((elem: TPlaylistItem) => (
+          <Link
+            key={elem.id}
+            to={`/categories${location.pathname.substr(
+              location.pathname.lastIndexOf('/')
+            )}/${elem.id}`}
+            onClick={() => {
+              fetchPlaylist(dispatch, elem.href)
+            }}
+          >
+            <Item key={elem.id}>
+              <ItemImage src={elem.images ? elem.images[0].url : ''} alt="" />
+              <ItemTextWrapper>
+                {elem.name}
+                <ItemSubtitle>By Spotify</ItemSubtitle>
+              </ItemTextWrapper>
+            </Item>
+          </Link>
+        ))}
       </ItemsList>
     </CategoriesWrapper>
   )

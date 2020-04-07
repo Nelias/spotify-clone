@@ -41,25 +41,23 @@ export const Categories: React.FC<{ data: ICategory }> = ({ data }) => {
     <CategoriesWrapper>
       <Title>Categories</Title>
       <ItemsList>
-        {data.categories
-          ? data.categories.items.map((elem: TCategoryItem) => (
-              <Link
-                key={elem.id}
-                to={`/categories/${elem.id}`}
-                onClick={() => {
-                  fetchCategoryPlaylists(dispatch, elem.href, elem.name)
-                }}
-              >
-                <Item>
-                  <ItemImage src={elem.icons ? elem.icons[0].url : ''} alt="" />
-                  <ItemTextWrapper>
-                    {elem.name}
-                    <ItemSubtitle>Category</ItemSubtitle>
-                  </ItemTextWrapper>
-                </Item>
-              </Link>
-            ))
-          : null}
+        {data?.categories?.items.map((elem: TCategoryItem) => (
+          <Link
+            key={elem.id}
+            to={`/categories/${elem.id}`}
+            onClick={() => {
+              fetchCategoryPlaylists(dispatch, elem.href, elem.name)
+            }}
+          >
+            <Item>
+              <ItemImage src={elem.icons ? elem.icons[0].url : ''} alt="" />
+              <ItemTextWrapper>
+                {elem.name}
+                <ItemSubtitle>Category</ItemSubtitle>
+              </ItemTextWrapper>
+            </Item>
+          </Link>
+        ))}
       </ItemsList>
     </CategoriesWrapper>
   )

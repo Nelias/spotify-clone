@@ -185,41 +185,45 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   const dispatch = useDispatch()
 
   function millisToMinutesAndSeconds(millis: number) {
-    var minutes: number = Math.floor(millis / 60000)
-    var seconds: any = ((millis % 60000) / 1000).toFixed(0)
-    return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+    if (millis) {
+      var minutes: number = Math.floor(millis / 60000)
+      var seconds: any = ((millis % 60000) / 1000).toFixed(0)
+      return minutes + ':' + (seconds < 10 ? '0' : '') + seconds
+    } else {
+      return null
+    }
   }
 
   function shortenName(name: string) {
     const textLength: number = 60
 
-    return name.length > textLength
+    return name?.length > textLength
       ? name.slice(0, textLength).concat('...')
       : name
   }
 
-  if (type === 'album') {
-    console.log(data, 'ALBUM')
+  // Optional chaining solved an error with one track missing in Ultimate Indie playlist
 
+  if (type === 'album') {
     return (
       <PlaylistWrapper>
         <PlayListInfoBox>
-          <PlaylistImage src={data.images[0].url} alt="" />
-          <PlaylistName>{data.name}</PlaylistName>
+          <PlaylistImage src={data?.images[0].url} alt="" />
+          <PlaylistName>{data?.name}</PlaylistName>
           <ArtistNameSubtitle>
-            {data.artists &&
-              data.artists.map((artist: any) => artist.name).join(' ')}
+            {data?.artists &&
+              data?.artists.map((artist: any) => artist.name).join(' ')}
           </ArtistNameSubtitle>
           <span>
-            {data.release_date && parseInt(data.release_date)}
+            {data?.release_date && parseInt(data?.release_date)}
             &nbsp; • &nbsp;
-            {data.tracks.items.length}
-            {data.tracks.items.length > 1 ? ' SONGS' : ' SONG'}
+            {data?.tracks?.items.length}
+            {data?.tracks?.items.length > 1 ? ' SONGS' : ' SONG'}
           </span>
         </PlayListInfoBox>
 
         <TrackList>
-          {data.tracks.items.map((elem: any) => {
+          {data?.tracks?.items.map((elem: any) => {
             return (
               <TrackItem
                 key={elem.id}
@@ -233,11 +237,11 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
                     alt=""
                   ></PlayButton>
                   <TrackDescription>
-                    <TrackName>{elem.name}</TrackName>
+                    <TrackName>{elem?.name}</TrackName>
                     <TrackArtist>
                       <span>
                         {shortenName(
-                          elem.artists
+                          elem?.artists
                             .map((artist: any) => artist.name)
                             .join(' ')
                         )}
@@ -247,7 +251,7 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
                 </PlayerWrapper>
 
                 <TrackTime>
-                  {millisToMinutesAndSeconds(elem.duration_ms)}
+                  {millisToMinutesAndSeconds(elem?.duration_ms)}
                 </TrackTime>
               </TrackItem>
             )
@@ -260,39 +264,39 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   return (
     <PlaylistWrapper>
       <PlayListInfoBox>
-        <PlaylistImage src={data.images[0].url} alt="" />
-        <PlaylistName>{data.name}</PlaylistName>
-        <p>{data.description}</p>
+        <PlaylistImage src={data?.images[0].url} alt="" />
+        <PlaylistName>{data?.name}</PlaylistName>
+        <p>{data?.description}</p>
         <span>
-          {data.tracks.items.length}
-          {data.tracks.items.length > 1 ? ' SONGS' : ' SONG'}
+          {data?.tracks?.items.length}
+          {data?.tracks?.items.length > 1 ? ' SONGS' : ' SONG'}
         </span>
       </PlayListInfoBox>
 
       <TrackList>
-        {data.tracks.items.map((elem: any) => {
+        {data?.tracks?.items.map((elem: any) => {
           return (
             <TrackItem
               key={elem.id}
               onClick={() =>
-                dispatch(setCurrentTrackURL(elem.track.preview_url))
+                dispatch(setCurrentTrackURL(elem?.track?.preview_url))
               }
-              isPlayable={!elem.track.preview_url}
+              isPlayable={!elem?.track?.preview_url}
             >
               <PlayerWrapper>
                 <PlayButton
-                  isPlayable={!elem.track.preview_url}
+                  isPlayable={!elem?.track?.preview_url}
                   src="/play-button.png"
                   alt=""
                 ></PlayButton>
                 <TrackDescription>
-                  <TrackName>{elem.track.name}</TrackName>
+                  <TrackName>{elem?.track?.name}</TrackName>
                   <TrackArtist>
                     <span>
                       {shortenName(
-                        elem.track.artists
-                          .map((artist: any) => artist.name)
-                          .concat(' • ', `${elem.track.album.name}`)
+                        elem?.track?.artists
+                          .map((artist: any) => artist?.name)
+                          .concat(' • ', `${elem?.track?.album.name}`)
                           .join(' ')
                       )}
                     </span>
@@ -301,7 +305,7 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
               </PlayerWrapper>
 
               <TrackTime>
-                {millisToMinutesAndSeconds(elem.track.duration_ms)}
+                {millisToMinutesAndSeconds(elem?.track?.duration_ms)}
               </TrackTime>
             </TrackItem>
           )

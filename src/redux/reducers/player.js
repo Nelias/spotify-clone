@@ -6,6 +6,9 @@ import {
   FETCH_CATEGORY_PLAYLISTS,
   FETCH_CATEGORY_PLAYLISTS_SUCCESS,
   FETCH_CATEGORY_PLAYLISTS_FAIL,
+  FETCH_ARTIST_ALBUMS,
+  FETCH_ARTIST_ALBUMS_SUCCESS,
+  FETCH_ARTIST_ALBUMS_FAIL,
 } from '../actionTypes'
 
 const initialState = {
@@ -14,6 +17,8 @@ const initialState = {
   currentCategoryName: '',
   currentPlaylist: null,
   isPlaylistLoading: false,
+  artistAlbums: null,
+  areArtistAlbumsLoading: false,
 }
 
 export default function playerReducer(state = initialState, action) {
@@ -79,6 +84,34 @@ export default function playerReducer(state = initialState, action) {
               message: 'Could not find resource',
             },
         isPlaylistLoading: false,
+      }
+    }
+
+    case FETCH_ARTIST_ALBUMS: {
+      return {
+        ...state,
+        areArtistAlbumsLoading: true,
+      }
+    }
+
+    case FETCH_ARTIST_ALBUMS_SUCCESS: {
+      return {
+        ...state,
+        artistAlbums: action.payload.data,
+        areArtistAlbumsLoading: false,
+      }
+    }
+
+    case FETCH_ARTIST_ALBUMS_FAIL: {
+      return {
+        ...state,
+        artistAlbums: action.payload.response.data
+          ? action.payload.response.data.error
+          : {
+              status: action.payload.response.status,
+              message: 'Could not find resource',
+            },
+        areArtistAlbumsLoading: false,
       }
     }
 
