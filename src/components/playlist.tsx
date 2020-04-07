@@ -1,9 +1,10 @@
 import * as React from 'react'
-import { setCurrentTrackURL } from '../redux/actions'
+import { setCurrentTrackURL, fetchArtistAlbums } from '../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { TAlbumItem } from './albums'
 import styled from 'styled-components'
+import { Link } from 'react-router-dom'
 
 interface PlaylistProps {
   data: TPlaylist
@@ -100,7 +101,7 @@ const PlayListInfoBox = styled.div`
 
 const ArtistNameSubtitle = styled.h3`
   margin-top: 5px;
-  font-size: 13px;
+  font-size: 14px;
   font-weight: normal;
 `
 
@@ -212,7 +213,15 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
           <PlaylistName>{data?.name}</PlaylistName>
           <ArtistNameSubtitle>
             {data?.artists &&
-              data?.artists.map((artist: any) => artist.name).join(' ')}
+              data?.artists.map((artist: any) => (
+                <Link
+                  key={artist.id}
+                  to={`/artist/${artist.id}`}
+                  onClick={() => fetchArtistAlbums(dispatch, artist.id)}
+                >
+                  &nbsp;{artist.name}&nbsp;
+                </Link>
+              ))}
           </ArtistNameSubtitle>
           <span>
             {data?.release_date && parseInt(data?.release_date)}
@@ -315,4 +324,6 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   )
 }
 
-export default connect(null, { setCurrentTrackURL })(Playlist)
+export default connect(null, { setCurrentTrackURL, fetchArtistAlbums })(
+  Playlist
+)

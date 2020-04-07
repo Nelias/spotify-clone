@@ -1,6 +1,6 @@
 # Spotify Clone
 
-Built with TypeScript + React + Redux + Spotify Web API + Jest + Enzyme
+Built with TypeScript + React + Redux + Spotify Web API + Jest + Enzyme + styled-components
 
 <div>
 <img src="https://hackr.io/tutorials/typescript/logo-typescript.svg?ver=1550646462" width="70" height="70">
@@ -9,6 +9,7 @@ Built with TypeScript + React + Redux + Spotify Web API + Jest + Enzyme
 <img src="https://upload.wikimedia.org/wikipedia/commons/thumb/1/19/Spotify_logo_without_text.svg/1200px-Spotify_logo_without_text.svg.png" width="70" height="70">
 <img src="https://images.xenonstack.com/blog/Jest-For-Unit-Testing.png" width="70" height="70">
 <img src="https://airbnb.io/img/projects/enzyme.png" width="70" height="70">
+<img src="https://www.styled-components.com/atom.png" width="70" height="70">
 </div>
 
 ## Development

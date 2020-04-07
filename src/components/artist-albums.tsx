@@ -36,7 +36,7 @@ export const ArtistAlbums: React.FC<{ data: IAlbum }> = ({ data }) => {
 
   return (
     <>
-      <Title>{data?.items[0].artists[0].name}</Title>
+      <Title>{data?.items[0]?.artists[0].name || 'Various Artists'}</Title>
       <ItemsList>
         {data?.items.length > 0 ? (
           data.items.map((elem: TAlbumItem) => (
