@@ -10,7 +10,7 @@ type TImage = {
   url: string
 }
 
-interface IUser {
+export interface IUser {
   country: string
   display_name: string
   email: string
@@ -66,7 +66,7 @@ export const UserProfile: React.FC<{ data: IUser }> = ({ data }) => {
         <UserText>
           Country:
           <UserData>
-            &nbsp; {flag(data?.country)} &nbsp;
+            &nbsp; {flag(data?.country || 'US')} &nbsp;
             {countries.getName(data?.country, 'en')}
           </UserData>
         </UserText>
@@ -78,4 +78,12 @@ export const UserProfile: React.FC<{ data: IUser }> = ({ data }) => {
   )
 }
 
-export default connect(null, {})(UserProfile)
+const mapStateToProps = (state: any) => {
+  const { userProfile } = state.sidebar
+
+  return {
+    data: userProfile,
+  }
+}
+
+export default connect(mapStateToProps, {})(UserProfile)

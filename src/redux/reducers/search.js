@@ -1,21 +1,19 @@
 import {
-  SET_SEARCH_PHRASE,
+  FETCH_SEARCH_DATA,
   FETCH_SEARCH_DATA_SUCCESS,
   FETCH_SEARCH_DATA_FAIL,
 } from '../actionTypes'
 
 const initialState = {
-  searchPhrase: 'start',
   searchResponseData: null,
   isSearchLoading: null,
 }
 
 export default function searchReducer(state = initialState, action) {
   switch (action.type) {
-    case SET_SEARCH_PHRASE: {
+    case FETCH_SEARCH_DATA: {
       return {
         ...state,
-        searchPhrase: action.payload.phrase,
         isSearchLoading: true,
       }
     }

@@ -1,5 +1,4 @@
 import {
-  SET_SEARCH_PHRASE,
   FETCH_SEARCH_DATA_SUCCESS,
   FETCH_SEARCH_DATA_FAIL,
   FETCH_SEARCH_DATA,
@@ -24,11 +23,6 @@ import {
   FETCH_ARTIST_ALBUMS_FAIL,
 } from './actionTypes'
 import axios from 'axios'
-
-export const setSearchPhrase = (phrase) => ({
-  type: SET_SEARCH_PHRASE,
-  payload: { phrase },
-})
 
 export const fetchSearchData = (dispatch, phrase) => {
   dispatch({ type: FETCH_SEARCH_DATA, payload: phrase })

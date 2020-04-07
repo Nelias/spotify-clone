@@ -1,8 +1,8 @@
 import React from 'react'
-import Sidebar from './components/sidebar'
+import Sidebar from './components/sidebar/sidebar'
 import TopBar from './components/top-bar/top-bar'
 import Main from './components/main'
-import BottomBar from './components/bottom-bar'
+import BottomBar from './components/bottom-bar/bottom-bar'
 
 import { Provider } from 'react-redux'
 import store from './redux/store'

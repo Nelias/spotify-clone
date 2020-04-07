@@ -1,8 +1,8 @@
 import * as React from 'react'
-import { setCurrentTrackURL, fetchArtistAlbums } from '../redux/actions'
+import { setCurrentTrackURL, fetchArtistAlbums } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
-import { TAlbumItem } from './albums'
+import { TAlbumItem } from '../albums/albums'
 import styled from 'styled-components'
 import { Link } from 'react-router-dom'
 
@@ -319,6 +319,15 @@ export const Playlist: React.FC<PlaylistProps> = ({ data, type }) => {
   }
 }
 
-export default connect(null, { setCurrentTrackURL, fetchArtistAlbums })(
-  Playlist
-)
+const mapStateToProps = (state: any) => {
+  const { currentPlaylist } = state.player
+
+  return {
+    data: currentPlaylist,
+  }
+}
+
+export default connect(mapStateToProps, {
+  setCurrentTrackURL,
+  fetchArtistAlbums,
+})(Playlist)

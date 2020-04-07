@@ -21,5 +21,9 @@ module.exports = {
     NODE_ENV: 'test',
   },
 
+  moduleNameMapper: {
+    '\\.(css|less|scss|sss|styl)$': '<rootDir>/node_modules/jest-css-modules',
+  },
+
   moduleDirectories: ['node_modules', 'src/components', 'src/redux'],
 }

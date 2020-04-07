@@ -8,6 +8,10 @@ export const ErrorWrapper = styled.div`
   justify-content: center;
 `
 
+export const ErrorTitle = styled.h2``
+
+export const ErrorMessage = styled.p``
+
 export const DataError: React.FC<{
   data: any
   title: string
@@ -15,10 +19,10 @@ export const DataError: React.FC<{
 }> = ({ data, title, children }) => {
   return data.status && data.status !== 200 ? (
     <ErrorWrapper>
-      <h2>
+      <ErrorTitle>
         {title} Error {data.status}
-      </h2>
-      <p>{data.message}</p>
+      </ErrorTitle>
+      <ErrorMessage>{data.message}</ErrorMessage>
     </ErrorWrapper>
   ) : (
     children

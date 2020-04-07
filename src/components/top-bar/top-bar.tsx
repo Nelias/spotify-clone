@@ -3,7 +3,7 @@ import styled from 'styled-components'
 import { useDispatch } from 'react-redux'
 
 import { connect } from 'react-redux'
-import { setSearchPhrase, fetchSearchData } from '../../redux/actions'
+import { fetchSearchData } from '../../redux/actions'
 import { useHistory } from 'react-router-dom'
 
 const Header = styled.header`
@@ -35,7 +35,7 @@ const Search = styled.input`
   }
 `
 
-const Button = styled.button`
+export const Button = styled.button`
   font-weight: bold;
   color: lime;
   background: #000;
@@ -43,6 +43,10 @@ const Button = styled.button`
   border-radius: 40px;
   border: 2px solid #00ff80;
   margin-left: 10px;
+
+  &:focus {
+    outline: none;
+  }
 
   @media only screen and (max-width: 600px) {
     margin-right: 10px;
@@ -60,7 +64,6 @@ export const TopBar: React.FC<{}> = () => {
 
   const handleKeyPress = (key: string) => {
     if (key === 'Enter') {
-      dispatch(setSearchPhrase(inputPhrase))
       fetchSearchData(dispatch, inputPhrase)
       history.push('/search')
     }
@@ -77,7 +80,6 @@ export const TopBar: React.FC<{}> = () => {
       />
       <Button
         onClick={() => {
-          dispatch(setSearchPhrase(inputPhrase))
           fetchSearchData(dispatch, inputPhrase)
           history.push('/search')
         }}
@@ -89,4 +91,4 @@ export const TopBar: React.FC<{}> = () => {
   )
 }
 
-export default connect(null, { setSearchPhrase })(TopBar)
+export default connect(null, { fetchSearchData })(TopBar)

@@ -2,14 +2,14 @@ import React from 'react'
 import { connect } from 'react-redux'
 import styled from 'styled-components'
 import { Route, Switch } from 'react-router-dom'
-import { Albums } from './albums'
-import Categories from './categories'
-import Playlists from './playlists'
-import Playlist from './playlist'
-import { UserProfile } from './user-profile/user-profile'
-import { SearchResult } from './search-result'
-import { DataError, ErrorWrapper } from './data-error'
-import { ArtistAlbums } from './artist-albums'
+import { Albums } from './albums/albums'
+import Categories from './categories/categories'
+import Playlists from './playlists/playlists'
+import Playlist from './playlist/playlist'
+import UserProfile from './user-profile/user-profile'
+import SearchResult from './search-result/search-result'
+import { DataError, ErrorWrapper } from './data-error/data-error'
+import { ArtistAlbums } from './artist-albums/artist-albums'
 
 type TError = {
   status: number
@@ -171,7 +171,7 @@ export const Main: React.FC<MainProps> = ({
 
           {!isPlaylistLoading && currentPlaylist && (
             <DataError data={currentPlaylist} title="Playlist">
-              <Playlist data={currentPlaylist} type="playlist" />
+              <Playlist type="playlist" />
             </DataError>
           )}
         </Route>
@@ -227,7 +227,7 @@ export const Main: React.FC<MainProps> = ({
 
           {!isUserProfileLoading && userProfile && (
             <DataError data={userProfile} title="User Profile">
-              <UserProfile data={userProfile} />
+              <UserProfile />
             </DataError>
           )}
         </Route>
@@ -241,7 +241,7 @@ export const Main: React.FC<MainProps> = ({
 
           {!isPlaylistLoading && currentPlaylist && (
             <DataError data={currentPlaylist} title="Playlist">
-              <Playlist data={currentPlaylist} type="album" />
+              <Playlist type="album" />
             </DataError>
           )}
         </Route>
@@ -293,7 +293,6 @@ export const Main: React.FC<MainProps> = ({
 }
 
 const mapStateToProps = (state: any) => {
-  console.log(state)
   const { searchResponseData, isSearchLoading } = state.search
 
   const {

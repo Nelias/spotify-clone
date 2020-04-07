@@ -5,14 +5,14 @@ import {
   ItemImage,
   ItemTextWrapper,
   ItemSubtitle,
-} from './main'
+} from '../main'
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { fetchPlaylist } from '../redux/actions'
+import { fetchPlaylist } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import { CategoriesWrapper } from './categories'
+import { CategoriesWrapper } from '../categories/categories'
 
 type TImage = {
   url: string

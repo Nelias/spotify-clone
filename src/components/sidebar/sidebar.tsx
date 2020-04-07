@@ -8,7 +8,7 @@ import {
   fetchCategories,
   fetchNewReleases,
   fetchUserProfile,
-} from '../redux/actions'
+} from '../../redux/actions'
 
 const Container = styled.section`
   width: 10%;

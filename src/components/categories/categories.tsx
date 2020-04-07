@@ -5,10 +5,10 @@ import {
   ItemImage,
   ItemTextWrapper,
   ItemSubtitle,
-} from './main'
+} from '../main'
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { fetchCategoryPlaylists } from '../redux/actions'
+import { fetchCategoryPlaylists } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 import styled from 'styled-components'

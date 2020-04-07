@@ -1,9 +1,9 @@
 import * as React from 'react'
-import { setCurrentTrackURL, fetchArtistAlbums } from '../redux/actions'
+import { setCurrentTrackURL, fetchArtistAlbums } from '../../redux/actions'
 import { useDispatch } from 'react-redux'
 import { connect } from 'react-redux'
 
-import { Albums } from './albums'
+import { Albums } from '../albums/albums'
 import styled from 'styled-components'
 import {
   Title,
@@ -13,7 +13,7 @@ import {
   ArtistImage,
   ItemSubtitle,
   ItemTextWrapper,
-} from './main'
+} from '../main'
 import { Link } from 'react-router-dom'
 
 export const TrackImage = styled.img`
@@ -59,7 +59,7 @@ export const SearchResult: React.FC<{ data: any }> = ({ data }) => {
 
       <Title>Tracks</Title>
       <ItemsList>
-        {data.tracks && data.tracks.items.length > 0 ? (
+        {data?.tracks?.items.length > 0 ? (
           data.tracks.items.map((elem: any) => (
             <Track
               key={elem.id}

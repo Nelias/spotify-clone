@@ -5,10 +5,10 @@ import {
   ItemImage,
   ItemTextWrapper,
   ItemSubtitle,
-} from './main'
+} from '../main'
 import * as React from 'react'
 import { Link } from 'react-router-dom'
-import { fetchPlaylist } from '../redux/actions'
+import { fetchPlaylist } from '../../redux/actions'
 import { useDispatch, connect } from 'react-redux'
 
 type TImage = {
